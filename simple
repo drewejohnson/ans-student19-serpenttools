@@ -1,0 +1,140 @@
+/*
+Copyright (c) 2018-2019 Andrew Johnson
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Simple assembly to demonstrate some capabilities of SERPENT
+Material definitions from BEAVRS Specifications
+
+This section is wrapped in a multi-line comment, like one would find
+in C
+
+Input is largely free-form
+*/
+
+/*
+                                   Materials
+syntax:
+mat <name> <density> [options] z1 d1 z2 d2 .....
+positive density -> atom density [#/b/cm]
+negative density -> mass density [g/cc]
+*/
+/* Use moder card to set thermal scattering libraries */
+
+mat water -0.740582067516  moder  lwtr  1001 
+ 1001.06c 2
+ 8016.06c 1
+
+/* therm defines what scattering libraries to use */
+
+therm  lwtr lwj3.11t
+
+/* Support for "named" isotopes */
+/* Denote this material as burnable */
+
+mat fuel -10.29748  burn 1 
+ O-16.06c 4.58500E-02
+ O-17.06c 1.74660E-05
+U-234.06c 5.79870E-06
+U-235.06c 7.21750E-04
+U-238.06c 2.22530E-02
+
+mat zircaloy -6.55 
+24050.06c 3.29620E-06
+24052.06c 6.35640E-06
+24053.06c 7.20760E-06
+24054.06c 1.79410E-06
+26054.06c 8.66990E-06
+26056.06c 1.36100E-04
+26057.06c 3.14310E-06
+26058.06c 4.18290E-07
+40090.06c 2.18270E-02
+40091.06c 4.76000E-03
+40092.06c 7.27580E-03
+40094.06c 7.37340E-03
+40096.06c 1.18790E-03
+50112.06c 4.67350E-06
+50114.06c 3.17990E-06
+50115.06c 1.63810E-06
+50116.06c 7.00550E-05
+50117.06c 3.70030E-05
+50118.06c 1.16690E-04
+50119.06c 4.13870E-05
+50120.06c 1.56970E-04
+50122.06c 2.23080E+00
+50124.06c 2.78970E-05
+ 8016.06c 3.07430E-04
+ 8017.06c 1.17110E-07
+
+/*
+                                    Geometry
+Similar support MCNP-style geometry construction
+(surfaces, cells, universes, lattices, etc)
+
+Handy pin syntax:
+pin <name> m1 rad1 m2 rad2 ... mN
+no last radius -> last material extends to end of universe
+*/
+pin fp
+fuel 0.39
+zircaloy 0.45
+water
+
+pin gt
+water 0.56
+zircaloy 0.60
+water
+
+/*
+Build an XY lattice of 6x6 fuel pins
+syntax: lat univ type x0 y0 nx ny pitch u1 u2 u3 ... uN
+*/
+lat 100 1 0 0 6 6 1.3
+fp fp fp fp fp fp
+fp fp gt gt fp fp
+fp gt fp fp gt fp
+fp gt fp fp gt fp
+fp fp gt gt fp fp
+fp fp fp fp fp fp
+
+/* 
+Place XY lattice into root geometry
+surf num sqc x0 y0 h_pitch [round]
+cell num univ (contains) (bounding surfaces)
+*/
+surf 10 sqc 0.0 0.0 3.9 0.2  % rounded corner
+surf 11 sqc 0.0 0.0 4.5
+cell 1 0 fill 100 -10  % fill inside of 10 w/ pin lattice
+cell 2 0 zircaloy 10 -11 % fill between 10 and 11 with zirc
+cell 3 0 outside 11  % place global boundary to be outside 11
+
+/*
+                                    Settings
+*/
+set pop 500 100 50  % k-calc: part / cycle, active, inactive
+/* uncomment later to look at different group structures
+ene mymg 4 cas14
+set nfg mymg
+*/
+
+/*
+cross section libraries
+set SERPENT_DATA to make this shorter
+otherwise pass full path to file
+*/
+set acelib "sss_endfb7u.xsdata"
+set bc 2  % reflective boundary conditions
+
+/*
+                               Geometry plotting
+*/
+plot 3 500 500
+mesh 3 500 500
+
+%vim:ft=serp
