@@ -1,0 +1,73 @@
+/*
+Copyright (c) 2018-2019 Andrew Johnson
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Introduce some detectors
+
+*/
+
+include "../simple"
+
+/* Simple flux detector across problem geometry */
+
+det flux
+
+/* Fine-group flux detector using built-in energy groups */
+
+ene mgflux 4 nj20  % ECCO 1968 group structure
+
+det mgflux
+de mgflux
+
+/* Multigroup reaction rates */
+
+% define material of a single isotope for reactions
+
+mat u5 1.0 92235.09c 1.0
+
+det rates
+de mgflux
+dr 18 u5  % fission
+dr 102 u5  % n, gamma
+
+/* Multigroup reactions */
+
+/* divide reaction rate by flux (and unit density) to get micro xs */
+
+det u5fis
+de mgflux
+dr 18 u5  % fission
+dt 3 mgflux
+
+det u5ngamma
+de mgflux
+dr 102 u5  % n gamma
+dt 3 mgflux
+
+/* Spatial meshing */
+
+det xmesh
+dx -4.5 4.5 100
+
+det xymesh
+dx -4.5 4.5 100
+dy -4.5 4.5 100
+
+/* Combine many reactions and bins */
+ene twog 4 default2  % default 2 group structure
+
+det xymatmesh
+dx -4.5 4.5 50
+dy -4.5 4.5 50
+dm fuel
+dm zircaloy
+de twog
+
+% vim: ft=serp
