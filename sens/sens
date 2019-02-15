@@ -1,0 +1,49 @@
+/*
+Copyright (c) 2018-2019 Andrew Johnson
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Use GPT-based sensitivity calculations
+
+*/
+
+include "../simple"
+
+/* Create response */
+
+sens resp keff 1
+sens resp void water
+
+/* Add some perturbations */
+
+sens pert xs mtlist 18 19 102 % fission, first chance fission, capture
+/* alternativly perturb all reactions with sens pert xs all */
+sens pert chi 1
+sens pert nubar 1
+sens pert eleg 0
+
+/* Nuclides to pertub */
+
+sens pert zailist 922350 922380 400000 10010
+/* for all isotopes use sens pert zai all */
+
+/* Material to perturb */
+
+sens pert matlist fuel zircaloy water
+/* for all materials use sens pert matlist all */
+
+/* Set energy grid of perturbations */
+
+ene sensgrid 4 nj20
+sens opt egrid sensgrid
+
+/* Number of latent generations */
+sens opt latgen 14
+
+% vim: ft=serp

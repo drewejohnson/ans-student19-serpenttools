@@ -2,7 +2,7 @@
 # Run all input files
 
 START="$(pwd)"
-FILES=(simple det/det dep/dep history/hist)
+FILES=(simple det/det dep/dep history/hist sens/sens)
 SSS2_OPTS="-noplot -omp 2"
 
 if [ -z $SSS2_EXE ]; then
