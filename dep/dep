@@ -42,4 +42,8 @@ set inventory
 Xe-135
 burnupcredit  % contains many many isotopes
 
+/* Create depletion matrix outputs */
+
+set depmtx 2
+
 % vim:ft=serp
