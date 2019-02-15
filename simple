@@ -37,8 +37,9 @@ therm  lwtr lwj3.11t
 
 /* Support for "named" isotopes */
 /* Denote this material as burnable */
+/* Set "volume" as area */
 
-mat fuel -10.29748  burn 1 
+mat fuel -10.29748  burn 1 vol 14.3350752
  O-16.06c 4.58500E-02
  O-17.06c 1.74660E-05
 U-234.06c 5.79870E-06
