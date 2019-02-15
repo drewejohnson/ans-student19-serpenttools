@@ -27,13 +27,13 @@ negative density -> mass density [g/cc]
 */
 /* Use moder card to set thermal scattering libraries */
 
-mat water -0.740582067516  moder  lwtr  1001 
+mat water -0.75  moder  lwtr  1001 
  1001.06c 2
  8016.06c 1
 
 /* therm defines what scattering libraries to use */
 
-therm  lwtr lwj3.11t
+therm  lwtr lwe7.12t
 
 /* Support for "named" isotopes */
 /* Denote this material as burnable */
