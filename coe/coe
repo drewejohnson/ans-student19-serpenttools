@@ -1,0 +1,66 @@
+/*
+Copyright (c) 2018-2019 Andrew Johnson
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Demonstrate the automated burnup sequence useful for generating
+coefficients for nodal diffusion codes
+
+Generate coefficient matrix with the following pertubations
+
+fuel temperature [K]: 600 750 900 1050 1200
+coolant temperature [K]: 500 600 700 800
+coolant density [g/cc] : 0.65 0.675 0.7 0.725 0.75
+*/
+
+include "../simple"
+
+/* Nominal branch with no perturbations */
+
+branch nominal
+
+/* Fuel temperatures - nominal is 900 K*/
+
+branch f600 stp fuel -10.29748 600
+branch f750 stp fuel -10.29748 750
+branch f1050 stp fuel -10.29748 1050
+branch f1200 stp fuel -10.29748 1200
+
+/* Coolant densities - nominal is 0.75 g/cc */
+
+branch cd65 stp water -0.65 600 lwtr lwe7.12t lwe7.12t
+branch cd675 stp water -0.675 600 lwtr lwe7.12t lwe7.12t
+branch cd70 stp water -0.70 600 lwtr lwe7.12t lwe7.12t
+branch cd725 stp water -0.725 600 lwtr lwe7.12t lwe7.12t
+
+/* Coolant temperatures - nominal is 600 K */
+/* Change thermal scattering libraries */
+
+branch ct800 stp water -0.75 800 lwtr lwe7.12t lwe7.18t
+branch ct700 stp water -0.75 700 lwtr lwe7.12t lwe7.18t
+branch ct500 stp water -0.75 500 lwtr lwe7.08t lwe7.12t 
+
+/* Set up coefficient matrix - no burnup */
+
+coef 1 0
+5 f600 f750 nominal f1050 f1200
+5 cd65 cd675 cd70 cd725 nominal
+4 ct500 nominal ct700 ct800
+
+/* Set up critical leakage - B1 cross sections */
+
+set fum defaultmg 2  % average over all cycles
+
+/* Constrain output */
+
+set coefpara 0
+INF_ABS INF_FISS INF_NSF INF_KAPPA INF_INVV INF_DIFFCOEF INF_CHIT
+B1_ABS B1_FISS B1_NSF B1_KAPPA B1_INVV B1_DIFFCOEF B1_CHIT
+
+% vim: ft=serp
