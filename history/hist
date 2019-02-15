@@ -19,4 +19,4 @@ include "../simple"
 
 set his 1
 set entr
-%vim:ft=serp
+% vim:ft=serp
