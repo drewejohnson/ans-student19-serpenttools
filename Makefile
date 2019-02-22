@@ -6,6 +6,12 @@ SERPENT_OPTS=-omp 4
 SERPENT_RESULTS=coe.coe simple_res.m dep_dep.m det_det0.m hist_his0.m sens_sens0.m
 ARCHIVE=dep_res.m depmtx_fuelpfpr10.m ${SERPENT_RESULTS}
 
+# LaTeX
+# Maybe need to change this to pdflatex
+LATEX_BUILDER=rubber -d
+
+slides: ans19-serpentTools.pdf
+
 serpent : $(SERPENT_RESULTS)
 
 archive : files.sha256 files.md5
@@ -41,4 +47,7 @@ files.md5: files.zip files.tgz
 	$(SERPENT_EXE) $(SERPENT_OPTS) $< > $<.txt
 
 clean:
-	$(RM) *seed *out *txt *.dep *.wrk *.m *png files.sha256 files.md5
+	$(RM) *aux *log *blg *toc *snm *nav *seed *out *txt *.dep *.wrk *.m *png files.sha256 files.md5
+
+%.pdf : %.tex
+	$(LATEX_BUILDER) $<
