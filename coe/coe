@@ -21,6 +21,14 @@ coolant density [g/cc] : 0.65 0.675 0.7 0.725 0.75
 
 include "../simple"
 
+
+/* Add a little burnup with super low power density */
+
+set powdens 6
+dep bustep 0.1
+set declib "sss_endfb7.dec"
+set nfylib "sss_endfb7.nfy"
+
 /* Nominal branch with no perturbations */
 
 branch nominal
@@ -48,7 +56,7 @@ branch ct500 stp water -0.75 500 lwtr lwe7.08t lwe7.12t
 
 /* Set up coefficient matrix - no burnup */
 
-coef 1 0
+coef 2 0 0.1
 5 f600 f750 nominal f1050 f1200
 5 cd65 cd675 cd70 cd725 nominal
 4 ct500 nominal ct700 ct800
@@ -57,10 +65,16 @@ coef 1 0
 
 set fum defaultmg 2  % average over all cycles
 
+/* Set up ADFs */
+/* Assembly has octant symmetry -> symmetry option 1 */
+
+set adf 0 11 1
+
 /* Constrain output */
 
 set coefpara 0
-INF_ABS INF_FISS INF_NSF INF_KAPPA INF_INVV INF_DIFFCOEF INF_CHIT
-B1_ABS B1_FISS B1_NSF B1_KAPPA B1_INVV B1_DIFFCOEF B1_CHIT
+INF_ABS INF_FISS INF_NSF INF_KAPPA INF_INVV INF_DIFFCOEF INF_CHIT INF_TRANSPXS INF_S0
+B1_ABS B1_FISS B1_NSF B1_KAPPA B1_INVV B1_DIFFCOEF B1_CHIT B1_TRANSPXS B1_S0
+LAMBDA BETA_EFF DF_SURF_DF
 
 % vim: ft=serp
