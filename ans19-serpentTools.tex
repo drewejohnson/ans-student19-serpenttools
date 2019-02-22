@@ -1,0 +1,394 @@
+\documentclass{beamer}
+
+\newcommand{\st}{\texttt{serpentTools} }
+\title{The \texttt{serpentTools} python package}
+\author{Andrew Johnson}
+\date{4 April, 2016}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\newcommand{\examplefile}[1]{\centerline{[Build \texttt{#1} input file]}}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Outline}
+\begin{frame}{Outline}
+    \tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{Objectives}
+\begin{frame}{Objectives}
+    \begin{itemize}
+        \item Moderate familiarity with the SERPENT Monte Carlo code
+        \begin{itemize}
+            \item Basic structure
+            \item ``Best'' practices
+        \end{itemize}
+        \item Detailed familiarity with \st API
+        \item Explore some applications built with \st
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Before we dive in...}
+    \begin{itemize}
+        \item Will be using \href{https://jupyter.org/}{Jupyter notebooks} for examples
+        \item Python 2.7, or 3.4+
+        \item Can use \texttt{numpy}, \texttt{matplotlib} inside from python
+            \begin{itemize}
+                \item Either in a Python/iPython environment or Jupyter notebook
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{SERPENT}
+\begin{frame}{SERPENT}
+    \begin{itemize}
+        \item Monte Carlo code developed and distributed by VTT Technical Research Centre of Finland, LTD
+        \item Criticality and fixed-source calculations
+        \item Reactor physics oriented, but general applications
+        \item Support for detectors (tallies), depletion, homogenization, and more
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Sample output}
+    Many outputs are MATLAB-compatible \texttt{.mat} files
+    \begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{./images/res.png}
+        \caption{Selection of main results files}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{SERPENT Resources}
+    \begin{itemize}
+        \item{Main website - \url{http://montecarlo.vtt.fi}}
+        \item{Wiki / Online manual - \url{http://serpent.vtt.fi/mediawiki/index.php/Main_Page}}
+        \item{Discussion board - \url{https://ttuki.vtt.fi/serpent/}}
+    \end{itemize}
+\end{frame}
+
+\section{\st}
+
+\begin{frame}{Motivation}
+    \begin{itemize}
+        \item For large problems, output files can cripple MATLAB
+        \begin{itemize}
+            \item Full core depletion
+            \item Many burnup steps
+            \item Thousands of burnable materials
+            \item $\rightarrow$ 10,000+ arrays with 1000+ items
+            \item $\rightarrow O(100)$ MB \textit{text file}
+        \end{itemize}
+        \item Complicated detectors are difficult to process
+        \item MATLAB is expensive (for non-students)\footnote{FOSS alternative: Octave}
+        \item Repeated analysis has to be rewritten case-wise
+            \begin{itemize}
+                \item Ranging from easy and tedious to difficult
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\st}
+    \begin{itemize}
+        \item Open-source python package for expediting analysis with SERPENT
+        \item Builds off of \texttt{numpy}, \texttt{matplotlib}, and \texttt{scipy}
+        \item Designed for speed, control, and flexibility
+        \item Publication-quality plots in a few commands
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{\st Resources}
+    \begin{itemize}
+        \item GitHub Repo - \url{https://github.com/CORE-GATECH-GROUP/serpent-tools}
+        \item Documentation - \url{https://serpent-tools.readthedocs.io/en/master/}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Installation}
+    \begin{itemize}
+        \item Install Guide - \url{https://serpent-tools.readthedocs.io/en/master/install.html}
+        \item Easy install
+            \begin{itemize}
+                \item Open terminal
+                \item \texttt{\$ pip install serpentTools}
+            \end{itemize}
+        \item Windows - use \href{https://www.anaconda.com/distribution/}{Anaconda}
+            \begin{itemize}
+                \item Open Anaconda Prompt
+                \item \texttt{\$ conda install numpy matplotlib scipy pyyaml}
+                \item \texttt{\$ pip install serpentTools}
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Simple Input File}
+
+\begin{frame}{Basic input commands}
+    \begin{itemize}
+        \item Input is very free-form and flexible
+        \item Many settings follow \texttt{set <name> <options>} syntax
+        \item Uses CSG for geometry like MCNP
+        \begin{itemize}
+            \item surfaces, cells, lattices, universes
+        \end{itemize}
+        \item Materials are assigned isotopes and properties
+        \begin{itemize}
+            \item volume, density, temperature, etc.
+        \end{itemize}
+    \end{itemize}
+    \examplefile{simple}
+\end{frame}
+
+\section{Expanded Input File}
+
+\begin{frame}{Expanded Input File}
+    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+\end{frame}
+
+\subsection{History settings}
+
+\begin{frame}{History settings}
+    \begin{itemize}
+        \item Monte Carlo codes compute expected quantities with associated uncertainty
+        \item $k_{eff}=1.0009\pm 10 pcm \rightarrow k_{eff} \pm \sigma$
+        \item How can we be sure our answer is ``right''?
+        \item Some convergence analysis
+        \item Increase number of simulated particles $\approx 1/\sqrt{N}$
+        \begin{itemize}
+            \item 100$\times$ increase for 10\% reduction in uncertainty
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{History settings}
+    \begin{itemize}
+        \item Enable detailed cycle-by-cycle output of $k_{eff}$ and entropy
+        \item \texttt{set his 1}
+        \item \texttt{set entr NX NY NZ}
+        \item Examine convergence of criticality and fission source
+    \end{itemize}
+    \examplefile{history/hist}
+\end{frame}
+
+\subsection{Detectors}
+\begin{frame}{Detectors (tallies)}
+    \begin{itemize}
+        \item Like MCNP, SERPENT can compute reaction-rate style quantities
+    \end{itemize}
+    \begin{equation}
+        R = \frac{1}{V}\int_\omega\psi(\omega)r(\omega)d\omega
+    \end{equation}
+    \begin{itemize}
+        \item $\omega$ can be space and energy domain
+        \item Example: one group reaction cross sections
+        \item Many binning options
+            \begin{itemize}
+                \item energy, reaction, material, xyz mesh, hex mesh, $\cdots$
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Detector examples}
+    \begin{itemize}
+        \item Single one group reaction detector
+        \item Multi-group flux spectrum
+        \item Cartesian meshing
+        \item Complicated energy, material, reaction, space detector
+    \end{itemize}
+    \examplefile{det/det}
+\end{frame}
+
+\subsection{Depletion}
+\begin{frame}{Depletion}
+    \begin{itemize}
+        \item Process of consuming fuel and producing fission products over time
+        \item Typically taken in two steps:
+            \begin{enumerate}
+                \item Compute flux and power in all burnable materials - $\phi$
+                \item Assume $\phi$ is constant and solve Bateman equations $\dot{N}(t)=AN(0)$
+            \end{enumerate}
+        \item Fixed $\phi$ assumption is valid for \textbf{very small $\Delta t$}
+        \item Various coupling schemes improve assumption
+            \begin{itemize}
+                \item Predictor-corrector, LE/LI, SIE
+                \item Substep approach
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Depletion settings}
+    \begin{itemize}
+        \item Must have at least one material specified as burnable
+        \begin{itemize}
+            \item Set mass or volume of burnable material
+        \end{itemize}
+        \item SERPENT requires at least two settings:
+        \begin{itemize}
+            \item Flux normalization
+            \item Length of depletion steps
+        \end{itemize}
+        \item Depletion step can be incremental, or cumulative
+        \begin{itemize}
+            \item \texttt{dep daystep 1 1 1 1 1}
+            \item \texttt{dep daytot 1 2 3 4 5}
+        \end{itemize}
+        \item Units of burnup, $[MWd/kgU]$, or days, $[d]$
+        \item Simulate downtime or spent fuel with decay
+        \begin{itemize}
+            \item Set power to zero
+        \end{itemize}
+    \end{itemize}
+    \examplefile{dep/dep}
+\end{frame}
+
+\begin{frame}{Depletion ``best'' practices / features}
+    \centerline{Personal/community recommendations}
+    \begin{itemize}
+        \item Always \textbf{always} declare volumes or masses of burnable materials
+        \begin{itemize}
+            \item Can check with \texttt{-checkvolumes} command
+        \end{itemize}
+        \item Small steps at beginning to build up initial fission products
+        \item Use higher order schemes with substeps \texttt{set pcc LELI 5}
+        \item 2 MWd/kgU step length [1 for Gd] with basic schemes
+        \begin{itemize}
+            \item $\approx$ 5-20 days
+        \end{itemize}
+        \item Use built in subdivision or manual subdivisions
+        \begin{itemize}
+            \item \url{http://serpent.vtt.fi/mediawiki/index.php/Automated\_depletion\_zone\_division}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Specialized SERPENT options}
+
+\begin{frame}{Specialized SERPENT Options}
+    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+\end{frame}
+
+\subsection{Command line tools}
+
+\begin{frame}{SERPENT command line}
+    \begin{itemize}
+        \item Stochastic particle placement for TRISO/pebble fuel
+        \item Monte Carlo-based volume checker
+        \item Track plotter
+        \item Composition indexing
+    \end{itemize}
+\end{frame}
+
+\subsection{Sensitivities}
+
+\begin{frame}{GPT-based Sensitivities}
+    \begin{itemize}
+        \item Generate sensitivity of parameters to nuclear data
+        \begin{itemize}
+            \item $S^{k_{eff}}_{\sigma_{capt}^{U8}}\approx
+                \frac{\Delta k_{eff}/k_{eff}}{\Delta\sigma^{U8}_{capt} / \Delta\sigma^{U8}_{capt}}$
+        \end{itemize}
+        \item Sensitivity of reaction rate ratios through detectors
+        \begin{itemize}
+            \item $R\equiv \frac{\int_\omega\phi\sigma_fd\omega}{\int_\omega\phi\sigma_{capt}d\omega}$
+            \item $S^R_\sigma\approx\frac{\Delta R/R}{\Delta\sigma /\sigma}$
+        \end{itemize}
+    \item Void reactivity coefficient
+    \item Useful for generating sensitivities to concentrations of specific isotopes
+    \item \url{http://serpent.vtt.fi/mediawiki/index.php/Sensitivity\_calculations}
+    \end{itemize}
+    \examplefile{sens/sens}
+\end{frame}
+
+\subsection{Branching calculations}
+
+\begin{frame}{Branching Calculations}
+    \begin{itemize}
+        \item Monte Carlo is great, but slow
+        \item Nodal diffusion is fast, but requires precomputation of homogenized data
+        \begin{itemize}
+            \item Cross sections, kinetic parameters, discontinuity factors, etc
+        \end{itemize}
+    \item Some nodal diffusion codes accept these data across perturbed states
+        \begin{itemize}
+            \item Range of fuel temperatures, coolant densities/temperatures, rod position, etc.
+            \item Burnup dependence
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Branching Calculations}
+    \begin{itemize}
+        \item Use automated branching analysis in SERPENT
+        \item Can control what goes in the output
+        \item Wide support for perturbation types
+        \item Generates a non-MATLAB but formatted \textit{coefficient} file
+        \item \url{http://serpent.vtt.fi/mediawiki/index.php/Automated\_burnup\_sequence}
+    \end{itemize}
+    \examplefile{coe/coe}
+\end{frame}
+
+
+\section{Advanced \st Features}
+
+\begin{frame}{Advanced \st Features}
+    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+\end{frame}
+
+\subsection{Control over processed data}
+
+\begin{frame}{Filtering of Processed Data}
+    \begin{itemize}
+        \item Consider huge output file, result or depletion
+        \item Only care about tiny subset of data
+        \begin{itemize}
+            \item Criticality over time
+            \item Atomic density for handful of materials from full core
+        \end{itemize}
+    \item Use \texttt{serpentTools.rc} settings to control what is processed
+    \end{itemize}
+\end{frame}
+
+\subsection{Command-line interface}
+
+\begin{frame}{Export to MATLAB}
+    \begin{itemize}
+        \item Many workflows/people prefer MATLAB
+        \item Still have to work with large files
+        \item Use \st as a compression tool
+        \item \texttt{\$ python -m serpentTools to-matlab dep/dep\_dep.m}
+        \item Create binary file that can be loaded into MATLAB
+        \item Take advantage of \st filtering capabilities
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Randomly Seeded Files}
+    \begin{itemize}
+        \item Common practice with Monte Carlo is to repeat with unique random seeds
+        \item Get a handle on the ``true'' uncertainty of system
+        \item Reduce effect of stochastic processes
+        \item \texttt{\$ python -m serpentTools seed file N}
+        \item Generate $N$ new input files with unique random seeds
+        \item Support for using \texttt{include} directives to avoid writing whole file
+    \end{itemize}
+\end{frame}
+
+\subsection{Nodal diffusion cross sections}
+
+
+\section*{Outro}
+
+\begin{frame}{Conclusion}
+    \begin{itemize}
+        \item Walked through a wide variety of SERPENT settings and examples
+        \item Processed the data using \st
+        \item More complicated analysis built using \st API
+    \end{itemize}
+\end{frame}
+
+\end{document}
