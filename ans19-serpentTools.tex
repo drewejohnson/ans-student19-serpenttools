@@ -5,6 +5,7 @@
 \author{Andrew Johnson}
 \date{4 April, 2016}
 
+\usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{hyperref}
 
@@ -18,7 +19,9 @@
 
 \section*{Outline}
 \begin{frame}{Outline}
-    \tableofcontents[hideallsubsections]
+    \begin{multicols}{2}
+        \tableofcontents[hideallsubsections]
+    \end{multicols}
 \end{frame}
 
 \section{Objectives}
@@ -148,7 +151,9 @@
 \section{Expanded Input File}
 
 \begin{frame}{Expanded Input File}
-    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+    \begin{multicols}{2}
+        \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+    \end{multicols}
 \end{frame}
 
 \subsection{History settings}
@@ -270,7 +275,9 @@
 \section{Specialized SERPENT options}
 
 \begin{frame}{Specialized SERPENT Options}
-    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+    \begin{multicols}{2}
+        \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+    \end{multicols}
 \end{frame}
 
 \subsection{Command line tools}
@@ -337,7 +344,9 @@
 \section{Advanced \st Features}
 
 \begin{frame}{Advanced \st Features}
-    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+    \begin{multicols}{2}
+        \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+    \end{multicols}
 \end{frame}
 
 \subsection{Control over processed data}
@@ -350,7 +359,7 @@
             \item Criticality over time
             \item Atomic density for handful of materials from full core
         \end{itemize}
-    \item Use \texttt{serpentTools.rc} settings to control what is processed
+    \item Use \texttt{serpentTools.settings.rc} settings to control what is processed
     \end{itemize}
 \end{frame}
 
@@ -380,6 +389,71 @@
 
 \subsection{Nodal diffusion cross sections}
 
+\begin{frame}{Nodal diffusion cross sections}
+    \begin{itemize}
+        \item{Utilize the automated burnup sequence in SERPENT}
+        \item{Generate homogenized cross sections across branch states}
+        \begin{itemize}
+            \item{Fuel temperature, control rod position, soluble boron concentration, etc}
+        \end{itemize}
+    \item{Better storage of cross sections with \texttt{BranchCollector}}
+    \item{Condensed storage, ideal for writing data files for nodal diffusion codes}
+    \end{itemize}
+\end{frame}
+
+\section{Integrating with other python modules}
+
+\begin{frame}{Integrating with other python modules}
+    \begin{multicols}{2}
+        \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+    \end{multicols}
+\end{frame}
+
+\subsection{\texttt{subprocess}}
+
+\begin{frame}{\texttt{subprocess}}
+    \begin{itemize}
+        \item{Part of standard library}
+        \item{Execute other processes inside of python}
+        \item{Capable to build integrated design tool}
+        \begin{enumerate}
+            \item{Build input files}
+            \item{Run SERPENT}
+            \item{Scrape output with \st}
+            \item{Traverse some design space}
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\subsection{\texttt{scipy}}
+
+\begin{frame}{\texttt{scipy}}
+    \begin{itemize}
+        \item{Wide-ranging numeric capabilities}
+        \item{Sparse matrix support - \texttt{scipy.sparse}}
+        \item{Numeric integration - \texttt{scipy.integrate}}
+        \item{Optimization routines - \texttt{scipy.optimization}}
+    \end{itemize}
+\end{frame}
+
+\subsection{\texttt{pandas} and \texttt{seaborn}}
+\begin{frame}{\texttt{pandas} and \texttt{seaborn}}
+    \begin{columns}[t]
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item{Data analysis tool kit}
+            \item{Excellent tabulated data framework}
+            \item{I/O to csv, hdf5, Excel, etc}
+        \end{itemize}
+
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item{Powerful plotting library}
+            \item{Deep-dive into underlying data}
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
 
 \section*{Outro}
 
@@ -388,6 +462,31 @@
         \item Walked through a wide variety of SERPENT settings and examples
         \item Processed the data using \st
         \item More complicated analysis built using \st API
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{What next?}
+    \begin{itemize}
+        \item{Dive right in!}
+        \item{Interested in updates?}
+        \begin{itemize}
+            \item{Mailing list - \url{https://pwp.gatech.edu/core/contact-us/}}
+            \item{Follow the repository on Github}
+        \end{itemize}
+        \item{Interested in developing?}
+        \begin{itemize}
+            \item{Happily welcome contributors}
+            \item{Developer's guide - \url{https://serpent-tools.readthedocs.io/en/latest/develop/index.html}}
+            \item{Search for ``good first issue'' or ``help wanted'' on \href{https://github.com/CORE-GATECH-GROUP/serpent-tools/issues}{Issue Tracker}}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+    \begin{itemize}
+        \item{Thank you very much!}
+        \item{My github: \href{https://github.com/drewejohnson}{\texttt{drewejohnson}}}
+        \item{Any questions?}
     \end{itemize}
 \end{frame}
 
