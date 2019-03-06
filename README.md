@@ -16,6 +16,24 @@ Repository containing examples and slides for ANS 2019 Student Conference
 - [Example directory](https://serpent-tools.readthedocs.io/en/latest/examples/index.html)
 - [Install guide](https://serpent-tools.readthedocs.io/en/latest/install.html)
 
+## Workshop tools
+
+SERPENT and `serpentTools` will be utilized live during the workshop. 
+If you wish to follow along, you will need the following
+
+1. Python environment (3.5+ preferred)
+1. Jupyter notebook
+1. Latest `serpentTools` installed
+
+## Workshop not-pre-reqs
+
+The following are not necessary to make the workshop benefitial. 
+Basic familiarity with Monte Carlo neutron transport codes (MCNP, SERPENT, SCALE-KENO, etc.)
+will make some things easier to understand, but not strictly required.
+
+1. Python mastery
+1. Knowlege of SERPENT
+
 ## Layout
 
 - `simple` - 6x6 toy assembly designed to show basic input structure.
@@ -35,3 +53,27 @@ Repository containing examples and slides for ANS 2019 Student Conference
   to find the SERPENT executable and libraries. Useful if you want to generate all
   outputs outside of the compressed files
 
+### Archived files
+
+The compressed `files.tgz` and `files.zip` can be extracted with standard unzipping utilities.
+From the command line,
+```
+$ unzip files.zip
+```
+or
+```
+$ tar xzvf files.tgz
+```
+
+Either of these commands will extract the following files into this directory.
+
+```
+coe/coe.coe
+dep/dep_dep.m
+dep/dep_res.m
+dep/depmtx_fuelpfpr10.m
+det/bwr_det0.m
+det/det_det0.m
+history/hist_his0.m
+simple_res.m
+```
