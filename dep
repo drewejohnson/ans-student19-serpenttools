@@ -12,11 +12,11 @@ SOFTWARE.
 Some basic depletion
 
 */
-include "../simple"
+include "simple"
 
 /* Power normalization */
 
-set powdens 6  % Super low power density kW/g
+set powdens 6  % Super low power density g
 
 /* Include additional libraries */
 set declib "sss_endfb7.dec"
@@ -44,6 +44,6 @@ burnupcredit  % contains many many isotopes
 
 /* Create depletion matrix outputs */
 
-set depmtx 2
+set depmtx 1
 
 % vim:ft=serp

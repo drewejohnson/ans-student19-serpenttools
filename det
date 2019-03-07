@@ -13,7 +13,7 @@ Introduce some detectors
 
 */
 
-include "../simple"
+include "simple"
 
 /* Simple flux detector across problem geometry */
 

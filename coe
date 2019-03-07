@@ -19,7 +19,7 @@ coolant temperature [K]: 500 600 700 800
 coolant density [g/cc] : 0.65 0.675 0.7 0.725 0.75
 */
 
-include "../simple"
+include "simple"
 
 
 /* Add a little burnup with super low power density */

@@ -13,7 +13,7 @@ Use GPT-based sensitivity calculations
 
 */
 
-include "../simple"
+include "simple"
 
 /* Create response */
 

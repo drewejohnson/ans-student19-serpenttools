@@ -15,7 +15,7 @@ Produces a history file at each depletion step
 */
 
 /* Use the include feature to link files together */
-include "../simple"
+include "simple"
 
 set his 1
 set entr
