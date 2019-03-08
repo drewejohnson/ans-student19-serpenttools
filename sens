@@ -44,6 +44,11 @@ ene sensgrid 4 nj20
 sens opt egrid sensgrid
 
 /* Number of latent generations */
+
 sens opt latgen 14
+
+/* Adjust the event bank */
+
+set nbuf 5 280
 
 % vim: ft=serp
