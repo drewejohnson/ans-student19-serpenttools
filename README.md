@@ -39,19 +39,18 @@ will make some things easier to understand, but not strictly required.
 - `simple` - 6x6 toy assembly designed to show basic input structure.
   Particle count taken to be deliberately low to make demonstrations easier.
   All subsequent input files use this.
-- `history/his` - input file for using history capabilities in SERPENT
-- `det/det` - input file with a collection of detector settings
-- `dep/dep` - input file with depletion steps
-- `sens/sens` - input file for sensitivity calculation
-- `coe/coe` - input file for automated burnup sequence
+- `his` - input file for using history capabilities in SERPENT
+- `det` - input file with a collection of detector settings
+- `dep` - input file with depletion steps
+- `sens` - input file for sensitivity calculation
+- `coe` - input file for automated burnup sequence
 - `archive.sh` - archival script used to collect all output files
 - `files.tgz` and `file.zip` - compressed archives of all output files needed for
   the analysis.
 - `files.sha256` and `files.md5` - text files containing hashes of compressed archives.
   Can be verified with `sha256sum -c files.sha256` and `md5sum -c files.md5`
-- `runAll.sh` - script that runs all input files. Requires some environment variables
-  to find the SERPENT executable and libraries. Useful if you want to generate all
-  outputs outside of the compressed files
+- `Makefile` - Makefile that can be used to run all SERPENT cases to produce the files
+  contained in `files.tgz` and `files.zip`.
 
 ### Archived files
 
@@ -68,12 +67,29 @@ $ tar xzvf files.tgz
 Either of these commands will extract the following files into this directory.
 
 ```
-coe/coe.coe
-dep/dep_dep.m
-dep/dep_res.m
-dep/depmtx_fuelpfpr10.m
-det/bwr_det0.m
-det/det_det0.m
-history/hist_his0.m
+coe.coe
+dep_dep.m
+dep_res.m
+depmtx_fuelpfpr10.m
+det_det0.m
+hist_his0.m
 simple_res.m
 ```
+
+### Makefile
+
+Using the `Makefile`, you can run all the SERPENT cases and produce the outputs files used
+in this workshop. The command `make serpent` will execute SERPENT on all cases. By default,
+this looks for `sss2` to be in this directory, calling SERPENT with
+```
+sss2 -omp 4 {input} > {input}.txt
+```
+
+You can change the SERPENT execution by passing `SERPENT_EXE` and `SERPENT_OPTS`
+during `make`.
+```
+make SERPENT_EXE="mpirun -n 4" SERPENT_OPTS="-omp 4" serpent
+```
+would use `mpirun` with four nodes, and a total of four OMP threads. 
+The generation of the coefficient file, `coe.coe`, may take a while (~1 hour),
+as 200 perturbation states are calculated.
