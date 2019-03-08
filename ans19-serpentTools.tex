@@ -79,6 +79,12 @@
 
 \begin{frame}{Motivation}
     \begin{itemize}
+        \item MATLAB is expensive (for non-students)\footnote{FOSS alternative: Octave}
+        \item Repeated analysis has to be rewritten case-wise
+            \begin{itemize}
+                \item Ranging from easy and tedious to difficult
+            \end{itemize}
+        \item Complicated and connected data stored as arrays
         \item For large problems, output files can cripple MATLAB
         \begin{itemize}
             \item Full core depletion
@@ -87,12 +93,6 @@
             \item $\rightarrow$ 10,000+ arrays with 1000+ items
             \item $\rightarrow O(100)$ MB \textit{text file}
         \end{itemize}
-        \item Complicated detectors are difficult to process
-        \item MATLAB is expensive (for non-students)\footnote{FOSS alternative: Octave}
-        \item Repeated analysis has to be rewritten case-wise
-            \begin{itemize}
-                \item Ranging from easy and tedious to difficult
-            \end{itemize}
     \end{itemize}
 \end{frame}
 
@@ -178,7 +178,7 @@
         \item \texttt{set entr NX NY NZ}
         \item Examine convergence of criticality and fission source
     \end{itemize}
-    \examplefile{history/hist}
+    \examplefile{hist}
 \end{frame}
 
 \subsection{Detectors}
@@ -206,7 +206,7 @@
         \item Cartesian meshing
         \item Complicated energy, material, reaction, space detector
     \end{itemize}
-    \examplefile{det/det}
+    \examplefile{det}
 \end{frame}
 
 \subsection{Depletion}
@@ -249,7 +249,7 @@
             \item Set power to zero
         \end{itemize}
     \end{itemize}
-    \examplefile{dep/dep}
+    \examplefile{dep}
 \end{frame}
 
 \begin{frame}{Depletion ``best'' practices / features}
@@ -309,7 +309,7 @@
     \item Useful for generating sensitivities to concentrations of specific isotopes
     \item \url{http://serpent.vtt.fi/mediawiki/index.php/Sensitivity\_calculations}
     \end{itemize}
-    \examplefile{sens/sens}
+    \examplefile{sens}
 \end{frame}
 
 \subsection{Branching calculations}
@@ -337,7 +337,7 @@
         \item Generates a non-MATLAB but formatted \textit{coefficient} file
         \item \url{http://serpent.vtt.fi/mediawiki/index.php/Automated\_burnup\_sequence}
     \end{itemize}
-    \examplefile{coe/coe}
+    \examplefile{coe}
 \end{frame}
 
 
@@ -438,7 +438,7 @@
 
 \subsection{\texttt{pandas} and \texttt{seaborn}}
 \begin{frame}{\texttt{pandas} and \texttt{seaborn}}
-    \begin{columns}[t]
+    \begin{columns}
         \column{0.5\textwidth}
         \begin{itemize}
             \item{Data analysis tool kit}
