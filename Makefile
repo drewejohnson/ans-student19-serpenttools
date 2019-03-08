@@ -3,11 +3,12 @@
 SERPENT_EXE=./sss2
 SERPENT_OPTS=-omp 4
 
-SERPENT_INPUTS=simple dep det hist sens
-SERPENT_RESULTS:=coe.coe
-SERPENT_RESULTS:=$(addsuffix _res.m,$(SERPENT_INPUTS))
+SERPENT_RESULTS:=coe.coe simple_res.m dep_dep.m det_det0.m hist_his0.m sens_sens0.m
+
 
 serpent : $(SERPENT_RESULTS)
+
+archive : files.sha256 files.md5
 
 files.zip : serpent
 	zip $@ $(SERPENT_RESULTS) depmtx_fuelpfpr10.m
@@ -26,6 +27,18 @@ files.md5: files.zip files.tgz
 
 %.coe : %
 	$(SERPENT_EXE) $(SERPENT_OPTS) $< > $<.txt
+
+%_dep.m : %
+	$(SERPENT_EXE) $(SERPENT_OPTS) $< > $<.txt
+
+%_det0.m : %
+	$(SERPENT_EXE) $(SERPENT_OPTS) $< > $<.txt
+
+%_sens0.m : %
+	$(SERPENT_EXE) $(SERPENT_OPTS) $< > $<.txt
+
+%_his0.m : %
+	$(SERPENT_EXE) $< > $<.txt
 
 clean:
 	$(RM) *seed *out *txt *.dep *.wrk *.m *png
