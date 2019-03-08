@@ -54,7 +54,15 @@ class Runner(object):
         self._pwd = getcwd()
         self._verbose = verbose
 
-    def run(self, fuelr, mpitch):
+    @property
+    def verbose(self):
+        return self._verbose
+
+    @verbose.setter
+    def verbose(self, val):
+        self._verbose = bool(val)
+
+    def run(self, fuelr, mpitch=0.63):
         cladr = fuelr + self.CLAD_THICK
         assert fuelr < cladr < mpitch, ' '.join(
             map(str, (fuelr, cladr, mpitch)))
