@@ -8,6 +8,10 @@
 \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{tikz}
+% more demonstrative than to scale
+\usepackage{color}
+\usepackage{listings}
 
 \newcommand{\examplefile}[1]{\centerline{[Build \texttt{#1} input file]}}
 
@@ -40,7 +44,7 @@
 \begin{frame}{Before we dive in...}
     \begin{itemize}
         \item Will be using \href{https://jupyter.org/}{Jupyter notebooks} for examples
-        \item Python 2.7, or 3.4+
+        \item Python 2.7, or 3.5+
         \item Can use \texttt{numpy}, \texttt{matplotlib} inside from python
             \begin{itemize}
                 \item Either in a Python/iPython environment or Jupyter notebook
@@ -58,6 +62,14 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{SERPENT Resources}
+    \begin{itemize}
+        \item{Main website - \url{http://montecarlo.vtt.fi}}
+        \item{Wiki / Online manual - \url{http://serpent.vtt.fi/mediawiki/index.php/Main_Page}}
+        \item{Discussion board - \url{https://ttuki.vtt.fi/serpent/}}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Sample output}
     Many outputs are MATLAB-compatible \texttt{.mat} files
     \begin{figure}
@@ -67,23 +79,11 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{SERPENT Resources}
-    \begin{itemize}
-        \item{Main website - \url{http://montecarlo.vtt.fi}}
-        \item{Wiki / Online manual - \url{http://serpent.vtt.fi/mediawiki/index.php/Main_Page}}
-        \item{Discussion board - \url{https://ttuki.vtt.fi/serpent/}}
-    \end{itemize}
-\end{frame}
-
 \section{\st}
 
 \begin{frame}{Motivation}
     \begin{itemize}
         \item MATLAB is expensive (for non-students)\footnote{FOSS alternative: Octave}
-        \item Repeated analysis has to be rewritten case-wise
-            \begin{itemize}
-                \item Ranging from easy and tedious to difficult
-            \end{itemize}
         \item Complicated and connected data stored as arrays
         \item For large problems, output files can cripple MATLAB
         \begin{itemize}
@@ -120,6 +120,7 @@
             \begin{itemize}
                 \item Open terminal
                 \item \texttt{\$ pip install serpentTools}
+                \item \texttt{\$ pip install serpentTools --user}
             \end{itemize}
         \item Windows - use \href{https://www.anaconda.com/distribution/}{Anaconda}
             \begin{itemize}
@@ -131,6 +132,10 @@
 \end{frame}
 
 \section{Simple Input File}
+
+\begin{frame}{Simple Input File}
+    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/show/hide]
+\end{frame}
 
 \begin{frame}{Basic input commands}
     \begin{itemize}
@@ -145,15 +150,109 @@
             \item volume, density, temperature, etc.
         \end{itemize}
     \end{itemize}
-    \examplefile{simple}
+\end{frame}
+
+\subsection{Geometry}
+
+\begin{frame}{Pin macro}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item{Handy shortcut for defining fuel pins}
+            \item{Basic syntax: \texttt{pin <name> <m1> <r1> <m2> <r2> ... <mN>}}
+            \item{Each material is placed from previous radius to next radius}
+            \item{\texttt{pin fp \textcolor{red}{fuel} 0.39 \textcolor{green}{clad}
+                   0.45 \textcolor{blue}{water}}}
+        \end{itemize}
+        \column{0.5\textwidth}
+        \begin{tikzpicture}[scale=3]
+            \filldraw[blue] (-0.63cm, -0.63cm) rectangle (0.63cm,0.63cm);
+            \filldraw[green] (0,0) circle (0.45cm);
+            \filldraw[red] (0, 0) circle (0.39cm);
+        \end{tikzpicture}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Lattice}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item{Many lattice types}
+            \begin{itemize}
+                \item{XY Cartesian, vertical, hexagonal, etc.}
+            \end{itemize}
+            \item{Place pins in Cartesian grid}
+            \item{\texttt{lat <univ> 1 x0 y0 nx ny \textcolor{red}{pitch}}}
+        \end{itemize}
+        \column{0.5\textwidth}
+        \texttt{lat 100 1 0 0 6 6 \textcolor{red}{1.3} fp fp fp fp ...}
+        \begin{tikzpicture}[scale=0.5]
+            \filldraw[blue] (-3.1, -3.1) rectangle (3.1, 3.1);
+            \foreach \x in {-2.5,...,2.5}
+                \foreach \y in {-2.5,...,2.5} {
+                    \filldraw[green,xshift=\x cm,yshift=\y cm] circle (0.45cm);
+                    \filldraw[red,xshift=\x cm,yshift=\y cm] circle (0.39cm);
+                }
+            \draw (-2.5, -2.5) -- (-2.5, -3.5) -- node[below,red] {1.3 cm} (-1.5, -3.5) -- (-1.5, -2.5);
+            \draw (-2.5, -2.5) -- (-3.5, -2.5) -- node[sloped, above,red] {1.3 cm} (-3.5, -1.5) -- (-2.5, -1.5);
+        \end{tikzpicture}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Simple Surfaces}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item{Many options for building geometric surfaces}
+            \item{Used to define boundaries to materials, universes, etc.}
+            \item{Simple square: \texttt{surf <id> sqc x0 y0 hp [rad]}}
+            \item{Cells are defined by intersections, unions of surfaces}
+            \item{\texttt{cell <id> <univ> [what] [surf boundaries]}}
+        \end{itemize}
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item{\texttt{surf \textcolor{red}{10} sqc 0 0 3.9}}
+            \item{\texttt{surf \textcolor{blue}{11} sqc 0 0 4.5}}
+            \item{\texttt{cell 1 0 fill 100 -\textcolor{red}{10}}}
+            \item{\texttt{cell 2 0 \textcolor{green}{clad} \textcolor{red}{10} -\textcolor{blue}{11}}}
+        \end{itemize}
+        \begin{tikzpicture}[scale=0.5]
+            \filldraw[fill=green,draw=blue,very thick,dashed] (-3.7, -3.7) rectangle (3.7, 3.7);
+            \filldraw[fill=blue,draw=red,very thick,dashed] (-3.1, -3.1) rectangle (3.1, 3.1);
+            \foreach \x in {-2.5,...,2.5}
+                \foreach \y in {-2.5,...,2.5} {
+                    \filldraw[green,xshift=\x cm,yshift=\y cm] circle (0.45cm);
+                    \filldraw[red,xshift=\x cm,yshift=\y cm] circle (0.39cm);
+                }
+        \end{tikzpicture}
+    \end{columns}
+\end{frame}
+
+\subsection{Basic settings}
+\begin{frame}{Basic settings}
+    \begin{itemize}
+        \item{Particle counts for criticality calculation}
+        \begin{itemize}
+            \item{\texttt{set pop <PPC> <ACT> <INACT>}}
+        \end{itemize}
+        \item{Geometry and mesh plotting}
+            \begin{itemize}
+                \item{\texttt{plot <orientation> <px> <py>}}
+                \item{\texttt{mesh <orientation> <px> <py>}}
+            \end{itemize}
+        \item{Cross sections libraries: \texttt{acelib},\texttt{declib}, \texttt{nfylib}}
+        \item{Boundary conditions: 1=vac, 2=ref, 3=periodic}
+            \begin{itemize}
+                \item{\texttt{set bc 2}}
+                \item{\texttt{set bc <bx> <by> <bz>}}
+            \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \section{Expanded Input File}
 
 \begin{frame}{Expanded Input File}
-    \begin{multicols}{2}
-        \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
-    \end{multicols}
+    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/show/hide]
 \end{frame}
 
 \subsection{History settings}
@@ -275,9 +374,7 @@
 \section{Specialized SERPENT options}
 
 \begin{frame}{Specialized SERPENT Options}
-    \begin{multicols}{2}
-        \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
-    \end{multicols}
+    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/show/hide]
 \end{frame}
 
 \subsection{Command line tools}
@@ -344,9 +441,7 @@
 \section{Advanced \st Features}
 
 \begin{frame}{Advanced \st Features}
-    \begin{multicols}{2}
-        \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
-    \end{multicols}
+    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/show/hide]
 \end{frame}
 
 \subsection{Control over processed data}
@@ -404,9 +499,7 @@
 \section{Integrating with other python modules}
 
 \begin{frame}{Integrating with other python modules}
-    \begin{multicols}{2}
-        \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
-    \end{multicols}
+        \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/show/hide]
 \end{frame}
 
 \subsection{\texttt{subprocess}}
