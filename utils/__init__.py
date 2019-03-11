@@ -1,3 +1,4 @@
+from matplotlib.pyplot import pcolormesh
 from .coe2frame import buildFrame
 
 def setupCollector(col):
@@ -10,3 +11,15 @@ def setupCollector(col):
     )
     col.axis = ("Univ", "Fuel T", "Coolant Dens", "Coolant Temp", "Burnup", "Group")
 
+
+def plotDepmtxStructure(mtx):
+    orig = mtx.data.copy()
+
+    mtx.data[mtx.data < 0] = -1
+    mtx.data[mtx.data > 0] = 1
+
+    out = pcolormesh(mtx.toarray()[::-1], cmap='PuOr_r')
+
+    mtx.data = orig
+
+    return out
