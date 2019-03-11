@@ -433,16 +433,29 @@
             \item $S^{k_{eff}}_{\sigma_{capt}^{U8}}\approx
                 \frac{\Delta k_{eff}/k_{eff}}{\Delta\sigma^{U8}_{capt} / \Delta\sigma^{U8}_{capt}}$
         \end{itemize}
+        \item Void reactivity coefficient
+        \item Useful for generating sensitivities to concentrations of specific isotopes
+        \onslide<2->
         \item Sensitivity of reaction rate ratios through detectors
         \begin{itemize}
             \item $R\equiv \frac{\int_\omega\phi\sigma_fd\omega}{\int_\omega\phi\sigma_{capt}d\omega}$
             \item $S^R_\sigma\approx\frac{\Delta R/R}{\Delta\sigma /\sigma}$
         \end{itemize}
-    \item Void reactivity coefficient
-    \item Useful for generating sensitivities to concentrations of specific isotopes
-    \item \url{http://serpent.vtt.fi/mediawiki/index.php/Sensitivity\_calculations}
+        \item \url{http://serpent.vtt.fi/mediawiki/index.php/Sensitivity\_calculations}
     \end{itemize}
-    \examplefile{sens}
+\end{frame}
+
+\begin{frame}{Sensitivity Settings}
+    \begin{itemize}
+        \item{What is the response? - \texttt{sens resp}}
+        \item{What is perturbed? - \texttt{sens pert}}
+        \begin{itemize}
+            \item{Nuclear data - \texttt{xs, chi, nubar, eleg}}
+            \item{Isotopes - \texttt{zailist}}
+            \item{Materials - \texttt{matlist}}
+        \end{itemize}
+        \item{What energy structure? - \texttt{sens opt egrid}}
+    \end{itemize}
 \end{frame}
 
 \subsection{Branching calculations}
