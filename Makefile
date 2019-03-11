@@ -47,7 +47,7 @@ files.md5: files.zip files.tgz
 	$(SERPENT_EXE) $(SERPENT_OPTS) $< > $<.txt
 
 clean:
-	$(RM) *aux *log *blg *toc *snm *nav *seed *out *txt *.dep *.wrk *.m *png files.sha256 files.md5
+	$(RM) *aux *log *blg *toc *snm *nav *seed *out *txt *.dep *.wrk *.m *png files.sha256 files.md5 *pdf
 
 %.pdf : %.tex
 	$(LATEX_BUILDER) $<
