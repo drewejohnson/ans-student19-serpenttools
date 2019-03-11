@@ -462,35 +462,69 @@
 
 \begin{frame}{Branching Calculations}
     \begin{itemize}
-        \item Monte Carlo is great, but slow
-        \item Nodal diffusion is fast, but requires precomputation of homogenized data
+        \item{Monte Carlo is great, but slow}
+        \onslide<2->
+        \item{Nodal diffusion is fast, but requires precomputation of homogenized data}
         \begin{itemize}
-            \item Cross sections, kinetic parameters, discontinuity factors, etc
+            \item{Cross sections, kinetic parameters, discontinuity factors, etc}
         \end{itemize}
-    \item Some nodal diffusion codes accept these data across perturbed states
+        \onslide<3->
+        \item{Some nodal diffusion codes accept these data across perturbed states}
         \begin{itemize}
-            \item Range of fuel temperatures, coolant densities/temperatures, rod position, etc.
-            \item Burnup dependence
+            \item{Range of fuel temperatures, coolant densities/temperatures, rod position, etc.}
+            \item{Burnup dependence}
         \end{itemize}
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Branching Calculations}
     \begin{itemize}
-        \item Use automated branching analysis in SERPENT
-        \item Can control what goes in the output
-        \item Wide support for perturbation types
-        \item Generates a non-MATLAB but formatted \textit{coefficient} file
-        \item \url{http://serpent.vtt.fi/mediawiki/index.php/Automated\_burnup\_sequence}
+        \item{Use automated branching analysis in SERPENT}
+        \item{Can control what goes in the output}
+        \item{Wide support for perturbation types}
+        \onslide<2->
+        \item{Generates a formatted coefficient file}
+        \item{\url{http://serpent.vtt.fi/mediawiki/index.php/Automated\_burnup\_sequence}}
     \end{itemize}
     \examplefile{coe}
 \end{frame}
+
+\begin{frame}{\texttt{branches} Dictionary}
+    \begin{tikzpicture}[grow=right, level 1/.style={sibling distance=4cm}, level 2/.style={sibling distance=2cm}, level distance=2cm, level 3/.style={sibling distance=2cm}]
+        \node {\texttt{branches}}
+        child {
+            node {f600, cd650, ct700}
+            child { node {univ 0, bu 0, ix 0} }
+            child { node {univ 0, bu 0.1, ix 1} }
+        }
+        child {
+            node {f750, cd600, ct800}
+            child { node {univ 0, bu 0, ix 0}
+                child { node {infAbs} }
+                child { node {infNsf} }
+            }
+            child { node {univ 0, bu 0.1, ix 1} }
+            };
+    \end{tikzpicture}
+\end{frame}
+
 
 
 \section{Advanced \st Features}
 
 \begin{frame}{Advanced \st Features}
     \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/show/hide]
+\end{frame}
+
+\subsection{Nodal diffusion cross sections}
+
+\begin{frame}{Nodal diffusion cross sections}
+    \begin{itemize}
+        \item{Tree-like structure may not be ideal}
+        \item{Condensed storage, ideal for writing data files for nodal diffusion codes}
+        \item{Better storage of cross sections with \texttt{BranchCollector}}
+        \item{Support for viewing, and modifying perturbation states}
+    \end{itemize}
 \end{frame}
 
 \subsection{Control over processed data}
@@ -528,20 +562,6 @@
         \item \texttt{\$ python -m serpentTools seed file N}
         \item Generate $N$ new input files with unique random seeds
         \item Support for using \texttt{include} directives to avoid writing whole file
-    \end{itemize}
-\end{frame}
-
-\subsection{Nodal diffusion cross sections}
-
-\begin{frame}{Nodal diffusion cross sections}
-    \begin{itemize}
-        \item{Utilize the automated burnup sequence in SERPENT}
-        \item{Generate homogenized cross sections across branch states}
-        \begin{itemize}
-            \item{Fuel temperature, control rod position, soluble boron concentration, etc}
-        \end{itemize}
-    \item{Better storage of cross sections with \texttt{BranchCollector}}
-    \item{Condensed storage, ideal for writing data files for nodal diffusion codes}
     \end{itemize}
 \end{frame}
 
