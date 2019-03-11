@@ -206,13 +206,16 @@
             \item{Many options for building geometric surfaces}
             \item{Used to define boundaries to materials, universes, etc.}
             \item{Simple square: \texttt{surf <id> sqc x0 y0 hp [rad]}}
+            \onslide<2->
             \item{Cells are defined by intersections, unions of surfaces}
             \item{\texttt{cell <id> <univ> [what] [surf boundaries]}}
         \end{itemize}
         \column{0.5\textwidth}
         \begin{itemize}
+            \onslide
             \item{\texttt{surf \textcolor{red}{10} sqc 0 0 3.9}}
             \item{\texttt{surf \textcolor{blue}{11} sqc 0 0 4.5}}
+            \onslide<2->
             \item{\texttt{cell 1 0 fill 100 -\textcolor{red}{10}}}
             \item{\texttt{cell 2 0 \textcolor{green}{clad} \textcolor{red}{10} -\textcolor{blue}{11}}}
         \end{itemize}
@@ -229,6 +232,7 @@
 \end{frame}
 
 \subsection{Basic settings}
+
 \begin{frame}{Basic settings}
     \begin{itemize}
         \item{Particle counts for criticality calculation}
@@ -342,13 +346,15 @@
             \item \texttt{dep daystep 1 1 1 1 1}
             \item \texttt{dep daytot 1 2 3 4 5}
         \end{itemize}
-        \item Units of burnup, $[MWd/kgU]$, or days, $[d]$
-        \item Simulate downtime or spent fuel with decay
+        \onslide<2->
+        \item Units of burnup, $[MWd/kgU]$
         \begin{itemize}
-            \item Set power to zero
+            \item{\texttt{dep bustep 0.5 1.0 1.0}}
+            \item{\texttt{dep butot 0.5 1.5 2.5}}
         \end{itemize}
+        \onslide<3->
+        \item{Simulate downtime or spent fuel with decay - \texttt{decstep}, \texttt{dectot}}
     \end{itemize}
-    \examplefile{dep}
 \end{frame}
 
 \begin{frame}{Depletion ``best'' practices / features}
@@ -381,10 +387,25 @@
 
 \begin{frame}{SERPENT command line}
     \begin{itemize}
-        \item Stochastic particle placement for TRISO/pebble fuel
         \item Monte Carlo-based volume checker
-        \item Track plotter
+        \begin{itemize}
+            \item{\texttt{sss2 -checkvolumes <N> <input>}}
+        \end{itemize}
+        \onslide<2->
         \item Composition indexing
+        \begin{itemize}
+            \item{\texttt{sss2 -comp list}}
+        \end{itemize}
+        \onslide<3->
+        \item Stochastic particle placement for TRISO/pebble fuel
+        \begin{itemize}
+            \item{\texttt{sss2 -disperse}}
+        \end{itemize}
+        \onslide<4->
+        \item Track plotter
+        \begin{itemize}
+            \item{\texttt{sss2 -track <N> <input>}}
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
