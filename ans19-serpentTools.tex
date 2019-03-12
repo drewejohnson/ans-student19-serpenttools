@@ -155,37 +155,35 @@
 \subsection{Geometry}
 
 \begin{frame}{Pin macro}
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{itemize}
-            \item{Handy shortcut for defining fuel pins}
-            \item{Basic syntax: \texttt{pin <name> <m1> <r1> <m2> <r2> ... <mN>}}
-            \item{Each material is placed from previous radius to next radius}
-            \item{\texttt{pin fp \textcolor{red}{fuel} 0.39 \textcolor{green}{clad}
-                   0.45 \textcolor{blue}{water}}}
-        \end{itemize}
-        \column{0.5\textwidth}
+    \begin{itemize}
+        \item{Handy shortcut for defining fuel pins}
+        \item{Basic syntax: \texttt{pin <name> <m1> <r1> <m2> <r2> ... <mN>}}
+        \item{Each material is placed from previous radius to next radius}
+        \onslide<2->
+        \item{\texttt{pin fp \textcolor{red}{fuel} 0.39 \textcolor{green}{clad}
+               0.45 \textcolor{blue}{water}}}
+    \end{itemize}
+    \begin{figure}
         \begin{tikzpicture}[scale=3]
             \filldraw[blue] (-0.63cm, -0.63cm) rectangle (0.63cm,0.63cm);
             \filldraw[green] (0,0) circle (0.45cm);
             \filldraw[red] (0, 0) circle (0.39cm);
         \end{tikzpicture}
-    \end{columns}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Lattice}
-    \begin{columns}
-        \column{0.5\textwidth}
+    \begin{itemize}
+        \item{Many lattice types}
         \begin{itemize}
-            \item{Many lattice types}
-            \begin{itemize}
-                \item{XY Cartesian, vertical, hexagonal, etc.}
-            \end{itemize}
-            \item{Place pins in Cartesian grid}
-            \item{\texttt{lat <univ> 1 x0 y0 nx ny \textcolor{red}{pitch}}}
+            \item{XY Cartesian, vertical, hexagonal, etc.}
         \end{itemize}
-        \column{0.5\textwidth}
-        \texttt{lat 100 1 0 0 6 6 \textcolor{red}{1.3} fp fp fp fp ...}
+        \item{Place pins in Cartesian grid}
+        \item{\texttt{lat <univ> 1 x0 y0 nx ny \textcolor{red}{pitch}}}
+        \onslide<2->
+        \item{\texttt{lat 100 1 0 0 6 6 \textcolor{red}{1.3} fp fp fp fp ...}}
+    \end{itemize}
+    \begin{figure}
         \begin{tikzpicture}[scale=0.5]
             \filldraw[blue] (-3.1, -3.1) rectangle (3.1, 3.1);
             \foreach \x in {-2.5,...,2.5}
@@ -196,29 +194,38 @@
             \draw (-2.5, -2.5) -- (-2.5, -3.5) -- node[below,red] {1.3 cm} (-1.5, -3.5) -- (-1.5, -2.5);
             \draw (-2.5, -2.5) -- (-3.5, -2.5) -- node[sloped, above,red] {1.3 cm} (-3.5, -1.5) -- (-2.5, -1.5);
         \end{tikzpicture}
-    \end{columns}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Simple Surfaces}
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{itemize}
-            \item{Many options for building geometric surfaces}
-            \item{Used to define boundaries to materials, universes, etc.}
-            \item{Simple square: \texttt{surf <id> sqc x0 y0 hp [rad]}}
-            \onslide<2->
-            \item{Cells are defined by intersections, unions of surfaces}
-            \item{\texttt{cell <id> <univ> [what] [surf boundaries]}}
-        \end{itemize}
-        \column{0.5\textwidth}
-        \begin{itemize}
-            \onslide
-            \item{\texttt{surf \textcolor{red}{10} sqc 0 0 3.9}}
-            \item{\texttt{surf \textcolor{blue}{11} sqc 0 0 4.5}}
-            \onslide<2->
-            \item{\texttt{cell 1 0 fill 100 -\textcolor{red}{10}}}
-            \item{\texttt{cell 2 0 \textcolor{green}{clad} \textcolor{red}{10} -\textcolor{blue}{11}}}
-        \end{itemize}
+    \begin{itemize}
+        \item{Many options for building geometric surfaces}
+        \item{Used to define boundaries to materials, universes, etc.}
+        \item{Simple square: \texttt{surf <id> sqc x0 y0 hp [rad]}}
+        \onslide<2->
+        \item{\texttt{surf \textcolor{red}{10} sqc 0 0 3.9 0.2}}
+        \item{\texttt{surf \textcolor{blue}{11} sqc 0 0 4.5}}
+    \end{itemize}
+    \begin{figure}
+        \centering
+    \begin{tikzpicture}[scale=0.5]
+        \draw[blue,very thick,dashed] (-3.7, -3.7) rectangle (3.7, 3.7);
+        \draw[rounded corners,red,very thick,dashed] (-3.1, -3.1) rectangle (3.1, 3.1);
+    \end{tikzpicture}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Cells}
+    \begin{itemize}
+        \item{Cells are defined by intersections, unions of surfaces}
+        \item{\texttt{cell <id> <univ> [what] [surf boundaries]}}
+        \onslide<2->
+        \item{\texttt{cell 1 0 fill 100 -\textcolor{red}{10}}}
+        \item{\texttt{cell 2 0 \textcolor{green}{clad} \textcolor{red}{10} -\textcolor{blue}{11}}}
+        \item{\texttt{cell 3 0 outside \textcolor{blue}{11}}}
+    \end{itemize}
+    \begin{figure}
+        \centering
         \begin{tikzpicture}[scale=0.5]
             \filldraw[fill=green,draw=blue,very thick,dashed] (-3.7, -3.7) rectangle (3.7, 3.7);
             \filldraw[fill=blue,draw=red,very thick,dashed] (-3.1, -3.1) rectangle (3.1, 3.1);
@@ -228,7 +235,7 @@
                     \filldraw[red,xshift=\x cm,yshift=\y cm] circle (0.39cm);
                 }
         \end{tikzpicture}
-    \end{columns}
+    \end{figure}
 \end{frame}
 
 \subsection{Basic settings}
@@ -490,25 +497,25 @@
 \end{frame}
 
 \begin{frame}{\texttt{branches} Dictionary}
-    \begin{tikzpicture}[grow=right, level 1/.style={sibling distance=4cm}, level 2/.style={sibling distance=2cm}, level distance=2cm, level 3/.style={sibling distance=2cm}]
-        \node {\texttt{branches}}
-        child {
-            node {f600, cd650, ct700}
-            child { node {univ 0, bu 0, ix 0} }
-            child { node {univ 0, bu 0.1, ix 1} }
-        }
-        child {
-            node {f750, cd600, ct800}
-            child { node {univ 0, bu 0, ix 0}
-                child { node {infAbs} }
-                child { node {infNsf} }
+    \begin{figure}
+        \begin{tikzpicture}[grow=right, level 1/.style={sibling distance=4cm}, level 2/.style={sibling distance=2cm}, level distance=2cm, level 3/.style={sibling distance=2cm}]
+            \node {\texttt{branches}}
+            child {
+                node {f600, cd650, ct700}
+                child { node {univ 0, bu 0, ix 0} }
+                child { node {univ 0, bu 0.1, ix 1} }
             }
-            child { node {univ 0, bu 0.1, ix 1} }
-            };
-    \end{tikzpicture}
+            child {
+                node {f750, cd600, ct800}
+                child { node {univ 0, bu 0, ix 0}
+                    child { node {infAbs} }
+                    child { node {infNsf} }
+                }
+                child { node {univ 0, bu 0.1, ix 1} }
+                };
+        \end{tikzpicture}
+    \end{figure}
 \end{frame}
-
-
 
 \section{Advanced \st Features}
 
