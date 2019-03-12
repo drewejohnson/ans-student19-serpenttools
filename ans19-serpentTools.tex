@@ -313,28 +313,30 @@
 \begin{frame}{Detectors (tallies)}
     \begin{itemize}
         \item Like MCNP, SERPENT can compute reaction-rate style quantities
-    \end{itemize}
-    \begin{equation}
-        R = \frac{1}{V}\int_\omega\psi(\omega)r(\omega)d\omega
-    \end{equation}
-    \begin{itemize}
+        \begin{equation}
+            R = \frac{1}{V}\int_\omega\psi(\omega)r(\omega)d\omega
+        \end{equation}
         \item $\omega$ can be space and energy domain
-        \item Example: one group reaction cross sections
+        \item Example: one group reaction rates
+        \begin{equation}
+            r(\omega) = \Sigma_i(E)
+        \end{equation}
+        \onslide<2->
         \item Many binning options
-            \begin{itemize}
-                \item energy, reaction, material, xyz mesh, hex mesh, $\cdots$
-            \end{itemize}
+        \begin{itemize}
+            \item energy, reaction, material, xyz mesh, hex mesh, $\cdots$
+        \end{itemize}
+        \item{Advice: Few detectors with more bins vs. many detectors with few bins}
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Detector examples}
     \begin{itemize}
-        \item Single one group reaction detector
+        \item One-group flux tally
         \item Multi-group flux spectrum
         \item Cartesian meshing
         \item Complicated energy, material, reaction, space detector
     \end{itemize}
-    \examplefile{det}
 \end{frame}
 
 \subsection{Depletion}
