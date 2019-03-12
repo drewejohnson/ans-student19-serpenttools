@@ -77,7 +77,6 @@
 \end{frame}
 
 \begin{frame}{Sample output}
-    Many outputs are MATLAB-compatible \texttt{.mat} files
     \begin{figure}
         \centering
         \includegraphics[width=\linewidth]{./images/res.png}
@@ -125,8 +124,7 @@
         \item Easy install
             \begin{itemize}
                 \item Open terminal
-                \item \texttt{\$ pip install serpentTools}
-                \item \texttt{\$ pip install serpentTools --user}
+                \item \texttt{\$ pip install serpentTools [--user]}
             \end{itemize}
         \item Windows - use \href{https://www.anaconda.com/distribution/}{Anaconda}
             \begin{itemize}
@@ -252,16 +250,16 @@
         \begin{itemize}
             \item{\texttt{set pop <PPC> <ACT> <INACT>}}
         \end{itemize}
+        \item{Boundary conditions: 1=vac, 2=ref, 3=periodic}
+            \begin{itemize}
+                \item{\texttt{set bc <type>}}
+                \item{\texttt{set bc <bx> <by> <bz>}}
+            \end{itemize}
+        \item{Cross sections libraries: \texttt{acelib}}
         \item{Geometry and mesh plotting}
             \begin{itemize}
                 \item{\texttt{plot <orientation> <px> <py>}}
                 \item{\texttt{mesh <orientation> <px> <py>}}
-            \end{itemize}
-        \item{Cross sections libraries: \texttt{acelib},\texttt{declib}, \texttt{nfylib}}
-        \item{Boundary conditions: 1=vac, 2=ref, 3=periodic}
-            \begin{itemize}
-                \item{\texttt{set bc 2}}
-                \item{\texttt{set bc <bx> <by> <bz>}}
             \end{itemize}
     \end{itemize}
 \end{frame}
@@ -309,7 +307,6 @@
         \item \texttt{set entr NX NY NZ}
         \item Examine convergence of criticality and fission source
     \end{itemize}
-    \examplefile{hist}
 \end{frame}
 
 \subsection{Detectors}
@@ -550,7 +547,8 @@
             \item Criticality over time
             \item Atomic density for handful of materials from full core
         \end{itemize}
-    \item Use \texttt{serpentTools.settings.rc} settings to control what is processed
+        \item Use \texttt{serpentTools.settings.rc} settings to control what is processed
+        \item{All settings explained \href{https://serpent-tools.readthedocs.io/en/latest/settingsTop.html}{in \texttt{readthedocs} manual}}
     \end{itemize}
 \end{frame}
 
