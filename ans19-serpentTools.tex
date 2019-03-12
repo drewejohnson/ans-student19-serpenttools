@@ -556,14 +556,23 @@
 
 \subsection{Command-line interface}
 
+\begin{frame}{Command-line interface}
+    \begin{itemize}
+        \item{Modest set of capabilities can be launched from command line}
+        \item{\texttt{\$ python -m serpentTools -h}}
+        \item{Subcommands for viewing settings, conversion, and seeding files}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Export to MATLAB}
     \begin{itemize}
         \item Many workflows/people prefer MATLAB
         \item Still have to work with large files
-        \item Use \st as a compression tool
-        \item \texttt{\$ python -m serpentTools to-matlab dep/dep\_dep.m}
         \item Create binary file that can be loaded into MATLAB
+        \onslide<2->
+        \item Use \st as a compression tool
         \item Take advantage of \st filtering capabilities
+        \item \texttt{\$ python -m serpentTools to-matlab dep\_dep.m}
     \end{itemize}
 \end{frame}
 
@@ -572,6 +581,7 @@
         \item Common practice with Monte Carlo is to repeat with unique random seeds
         \item Get a handle on the ``true'' uncertainty of system
         \item Reduce effect of stochastic processes
+        \onslide<2->
         \item \texttt{\$ python -m serpentTools seed file N}
         \item Generate $N$ new input files with unique random seeds
         \item Support for using \texttt{include} directives to avoid writing whole file
@@ -595,7 +605,6 @@
             \item{Build input files}
             \item{Run SERPENT}
             \item{Scrape output with \st}
-            \item{Traverse some design space}
         \end{enumerate}
     \end{itemize}
 \end{frame}
