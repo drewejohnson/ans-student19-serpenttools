@@ -91,5 +91,5 @@ during `make`.
 make SERPENT_EXE="mpirun -n 4" SERPENT_OPTS="-omp 4" serpent
 ```
 would use `mpirun` with four nodes, and a total of four OMP threads. 
-The generation of the coefficient file, `coe.coe`, may take a while (~1 hour),
-as 200 perturbation states are calculated.
+The generation of the coefficient file, `coe.coe`, may take a while,
+as 50 perturbation states are calculated.
