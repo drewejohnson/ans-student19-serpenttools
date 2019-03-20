@@ -351,7 +351,10 @@
         \item Typically taken in two steps:
             \begin{enumerate}
                 \item Compute flux and power in all burnable materials - $\phi$
-                \item Assume $\phi$ is constant and solve Bateman equations $\dot{N}(t)=AN(0)$
+                \item Assume $\phi$ is constant and solve Bateman equations
+                \begin{equation}
+                    \dot{\vec{N}}(t)=\underline{\mathbf{A}}\vec{N}(0)
+                \end{equation}
             \end{enumerate}
         \item Fixed $\phi$ assumption is valid for \textbf{very small $\Delta t$}
         \item Various coupling schemes improve assumption
@@ -522,6 +525,7 @@
                 child { node {univ 0, bu 0.1, ix 1} }
                 };
         \end{tikzpicture}
+        \caption{Structure of the \texttt{BranchingReader branches} dictionary}
     \end{figure}
 \end{frame}
 
@@ -536,7 +540,6 @@
 \begin{frame}{Nodal diffusion cross sections}
     \begin{itemize}
         \item{Tree-like structure may not be ideal}
-        \item{Condensed storage, ideal for writing data files for nodal diffusion codes}
         \item{Better storage of cross sections with \texttt{BranchCollector}}
         \begin{itemize}
             \item Pre-release \texttt{0.7.0rc0}
@@ -633,7 +636,10 @@
         \begin{itemize}
             \item{Data analysis tool kit}
             \item{Excellent tabulated data framework}
-            \item{I/O to csv, hdf5, Excel, etc}
+            \item{I/O capabilities to common data formats}
+            \begin{itemize}
+                \item{csv, hdf5, Excel, \LaTeX}
+            \end{itemize}
         \end{itemize}
 
         \column{0.5\textwidth}
