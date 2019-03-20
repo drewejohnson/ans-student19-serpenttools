@@ -17,12 +17,12 @@ from os import getcwd
 from os.path import isfile, join
 from tempfile import TemporaryDirectory
 from subprocess import run, PIPE
+from numpy import empty_like
 from serpentTools import read
 from serpentTools.settings import rc
 
 
 rc['xs.variableGroups'] = ['eig']
-rc['serpentVersion'] = '2.1.30'
 
 
 def buildSss2Cmd(sss2Exe, opts=None):
@@ -63,6 +63,7 @@ class Runner(object):
         self._verbose = bool(val)
 
     def run(self, fuelr, mpitch=0.63):
+        """Run serpent and return criticality and uncertainty"""
         cladr = fuelr + self.CLAD_THICK
         assert fuelr < cladr < mpitch, ' '.join(
             map(str, (fuelr, cladr, mpitch)))
@@ -109,3 +110,15 @@ class Runner(object):
             move(resfile, self._pwd)
             raise ee
         return kinf
+
+    def getRangeKeff(self, fRads, mRads=None):
+        """Return a vector of keff, unc for various fuel radii"""
+        if mRads is None:
+            mRads = empty_like(fRads)
+            mRads.fill(0.63)
+        keffVec = empty_like(fRads, dtype=float)
+        uncVec = empty_like(keffVec)
+
+        for ix, (fp, mp) in enumerate(zip(fRads, mRads)):
+            keffVec[ix], uncVec[ix] = self.run(fp, mp)
+        return keffVec, uncVec
