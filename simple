@@ -25,6 +25,16 @@ mat <name> <density> [options] z1 d1 z2 d2 .....
 positive density -> atom density [#/b/cm]
 negative density -> mass density [g/cc]
 */
+
+% --- "Zircaloy-4" [PNNL-15870, Rev. 1]
+
+mat clad -6.56000E+00
+ 8016.09c  -1.19600E-03
+24000.09c  -9.97000E-04
+26000.09c  -1.99400E-03
+40000.09c  -9.81858E-01
+50000.09c  -1.39550E-02
+
 /* Use moder card to set thermal scattering libraries */
 
 mat water -0.75  moder  lwtr  1001 
@@ -40,20 +50,11 @@ therm  lwtr lwe7.12t
 /* Set "volume" as area */
 
 mat fuel -10.29748  burn 1 vol 14.3350752
- O-16.06c 4.58500E-02
- O-17.06c 1.74660E-05
-U-234.06c 5.79870E-06
-U-235.06c 7.21750E-04
-U-238.06c 2.22530E-02
-
-% --- "Zircaloy-4" [PNNL-15870, Rev. 1]
-
-mat zircaloy -6.56000E+00
- 8016.09c  -1.19600E-03
-24000.09c  -9.97000E-04
-26000.09c  -1.99400E-03
-40000.09c  -9.81858E-01
-50000.09c  -1.39550E-02
+ O-16.09c 4.58500E-02
+ O-17.09c 1.74660E-05
+U-234.09c 5.79870E-06
+U-235.09c 7.21750E-04
+U-238.09c 2.22530E-02
 
 /*
                                     Geometry
@@ -66,12 +67,12 @@ no last radius -> last material extends to end of universe
 */
 pin fp
 fuel 0.39
-zircaloy 0.45
+clad 0.45
 water
 
 pin gt
 water 0.56
-zircaloy 0.60
+clad 0.60
 water
 
 /*
@@ -91,20 +92,21 @@ Place XY lattice into root geometry
 surf num sqc x0 y0 h_pitch [round]
 cell num univ (contains) (bounding surfaces)
 */
+
 surf 10 sqc 0.0 0.0 3.9 0.2  % rounded corner
 surf 11 sqc 0.0 0.0 4.5
+
 cell 1 0 fill 100 -10  % fill inside of 10 w/ pin lattice
-cell 2 0 zircaloy 10 -11 % fill between 10 and 11 with zirc
+cell 2 0 clad 10 -11 % fill between 10 and 11 with zirc
 cell 3 0 outside 11  % place global boundary to be outside 11
 
 /*
                                     Settings
 */
-set pop 500 100 50  % k-calc: part / cycle, active, inactive
-/* uncomment later to look at different group structures
-ene mymg 4 cas14
-set nfg mymg
-*/
+set pop 100000 500 200
+% set pop 500 100 50  
+% ene mymg 4 cas14
+% set nfg mymg
 
 /*
 cross section libraries
@@ -117,7 +119,7 @@ set bc 2  % reflective boundary conditions
 /*
                                Geometry plotting
 */
-plot 3 500 500
-mesh 3 500 500
+% plot 3 500 500
+% mesh 3 500 500
 
 % vim:ft=serp

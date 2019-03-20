@@ -16,7 +16,7 @@ include "simple"
 
 /* Power normalization */
 
-set powdens 6  % Super low power density g
+set powdens 0.04  % ballpark of LWR power density
 
 /* Include additional libraries */
 set declib "sss_endfb7.dec"
@@ -35,9 +35,9 @@ set bumode 2 16  % 16th order CRAM
 dep bustep 1 1
 dep daystep 5 5 
 dep decstep 10
-dep daytot 100  % very long step, not advised
+dep daytot 100
 
-/* Which isotopes to track */
+/* Which isotopes to track in output file */
 set inventory
 Xe-135
 burnupcredit  % contains many many isotopes

@@ -35,7 +35,7 @@ sens pert zailist 922350 922380 400000 10010
 
 /* Material to perturb */
 
-sens pert matlist fuel zircaloy water
+sens pert matlist fuel clad water
 /* for all materials use sens pert matlist all */
 
 /* Set energy grid of perturbations */

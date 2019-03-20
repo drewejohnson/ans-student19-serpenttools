@@ -37,7 +37,7 @@ de mgflux
 dr 18 u5  % fission
 dr 102 u5  % n, gamma
 
-/* Multigroup reactions */
+/* Multigroup microscopic cross sections */
 
 /* divide reaction rate by flux (and unit density) to get micro xs */
 
@@ -46,19 +46,10 @@ de mgflux
 dr 18 u5  % fission
 dt 3 mgflux
 
-det u5ngamma
-de mgflux
-dr 102 u5  % n gamma
-dt 3 mgflux
-
 /* Spatial meshing */
-
-det xmesh
-dx -4.5 4.5 100
-
 det xymesh
-dx -4.5 4.5 100
-dy -4.5 4.5 100
+dx -4.5 4.5 20
+dy -4.5 4.5 20
 
 /* Combine many reactions and bins */
 ene twog 4 default2  % default 2 group structure
@@ -66,8 +57,6 @@ ene twog 4 default2  % default 2 group structure
 det xymatmesh
 dx -4.5 4.5 50
 dy -4.5 4.5 50
-dm fuel
-dm zircaloy
-de twog
+dm fuel dm clad de twog
 
 % vim: ft=serp
