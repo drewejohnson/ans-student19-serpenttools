@@ -8,12 +8,14 @@
 \usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=orange
+}
 \usepackage{tikz}
-% more demonstrative than to scale
 \usepackage{color}
 \usepackage{listings}
-
-\newcommand{\examplefile}[1]{\centerline{[Build \texttt{#1} input file]}}
 
 \begin{document}
 
@@ -498,7 +500,6 @@
         \item{Generates a formatted coefficient file}
         \item{\url{http://serpent.vtt.fi/mediawiki/index.php/Automated\_burnup\_sequence}}
     \end{itemize}
-    \examplefile{coe}
 \end{frame}
 
 \begin{frame}{\texttt{branches} Dictionary}
