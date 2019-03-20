@@ -3,18 +3,18 @@
 SERPENT_EXE=./sss2
 SERPENT_OPTS=-omp 4
 
-SERPENT_RESULTS:=coe.coe simple_res.m dep_dep.m det_det0.m hist_his0.m sens_sens0.m
-
+SERPENT_RESULTS=coe.coe simple_res.m dep_dep.m det_det0.m hist_his0.m sens_sens0.m
+ARCHIVE=dep_res.m depmtx_fuelpfpr10.m ${SERPENT_RESULTS}
 
 serpent : $(SERPENT_RESULTS)
 
 archive : files.sha256 files.md5
 
 files.zip : serpent
-	zip $@ $(SERPENT_RESULTS) depmtx_fuelpfpr10.m
+	zip $@ $(ARCHIVE)
 
 files.tgz : serpent
-	tar czvf $@ $(SERPENT_RESULTS) depmtx_fuelpfpr10.m
+	tar czvf $@ $(ARCHIVE)
 
 files.sha256: files.zip files.tgz
 	sha256sum $^ > $@
@@ -38,7 +38,7 @@ files.md5: files.zip files.tgz
 	$(SERPENT_EXE) $(SERPENT_OPTS) $< > $<.txt
 
 %_his0.m : %
-	$(SERPENT_EXE) $< > $<.txt
+	$(SERPENT_EXE) $(SERPENT_OPTS) $< > $<.txt
 
 clean:
-	$(RM) *seed *out *txt *.dep *.wrk *.m *png
+	$(RM) *seed *out *txt *.dep *.wrk *.m *png files.sha256 files.md5
