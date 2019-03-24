@@ -438,7 +438,7 @@
         \onslide<4->
         \item Track plotter
         \begin{itemize}
-            \item{\texttt{sss2 -track <N> <input>}}
+            \item{\texttt{sss2 -tracks <N> <input>}}
         \end{itemize}
     \end{itemize}
 \end{frame}
@@ -450,7 +450,7 @@
         \item Generate sensitivity of parameters to nuclear data
         \begin{itemize}
             \item $S^{k_{eff}}_{\sigma_{capt}^{U8}}\approx
-                \frac{\Delta k_{eff}/k_{eff}}{\Delta\sigma^{U8}_{capt} / \Delta\sigma^{U8}_{capt}}$
+                \frac{\Delta k_{eff}/k_{eff}}{\Delta\sigma^{U8}_{capt} / \sigma^{U8}_{capt}}$
         \end{itemize}
         \item Void reactivity coefficient
         \item Useful for generating sensitivities to concentrations of specific isotopes
@@ -499,9 +499,8 @@
 \begin{frame}{Branching Calculations}
     \begin{itemize}
         \item{Use automated branching analysis in SERPENT}
-        \item{Can control what goes in the output}
         \item{Wide support for perturbation types}
-        \onslide<2->
+        \item{Can control what goes in the output}
         \item{Generates a formatted coefficient file}
         \item{\url{http://serpent.vtt.fi/mediawiki/index.php/Automated\_burnup\_sequence}}
     \end{itemize}
@@ -512,12 +511,12 @@
         \begin{tikzpicture}[grow=right, level 1/.style={sibling distance=4cm}, level 2/.style={sibling distance=2cm}, level distance=2cm, level 3/.style={sibling distance=2cm}]
             \node {\texttt{branches}}
             child {
-                node {f600, cd650, ct700}
+                node {cd300, ct300, f1200}
                 child { node {univ 0, bu 0, ix 0} }
                 child { node {univ 0, bu 0.1, ix 1} }
             }
             child {
-                node {f750, cd600, ct800}
+                node {nominal, ct300, f300}
                 child { node {univ 0, bu 0, ix 0}
                     child { node {infAbs} }
                     child { node {infNsf} }
@@ -535,22 +534,25 @@
     \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/show/hide]
 \end{frame}
 
-\subsection{Nodal diffusion cross sections}
+\subsection{\texttt{BranchCollector}}
 
-\begin{frame}{Nodal diffusion cross sections}
+\begin{frame}{\text{BranchCollector}}
     \begin{itemize}
         \item{Tree-like structure may not be ideal}
+        \item Gathering total cross section requires traversing a lot of branches
+        \onslide<2->
         \item{Better storage of cross sections with \texttt{BranchCollector}}
         \begin{itemize}
             \item Pre-release \texttt{0.7.0rc0}
         \end{itemize}
+        \item{Store group constants as multi-dimension arrays}
         \item{Support for viewing, and modifying perturbation states}
     \end{itemize}
 \end{frame}
 
-\subsection{Control over processed data}
+\subsection{Filtering/Control of Processing Data}
 
-\begin{frame}{Filtering of Processed Data}
+\begin{frame}{Filtering/Control of Processing Data}
     \begin{itemize}
         \item Consider huge output file, result or depletion
         \item Only care about tiny subset of data
@@ -558,6 +560,7 @@
             \item Criticality over time
             \item Atomic density for handful of materials from full core
         \end{itemize}
+        \onslide<2->
         \item Use \texttt{serpentTools.settings.rc} settings to control what is processed
         \item{All settings explained \href{https://serpent-tools.readthedocs.io/en/latest/settingsTop.html}{in \texttt{readthedocs} manual}}
     \end{itemize}
@@ -613,6 +616,7 @@
         \item{Exporting to other data types}
         \begin{itemize}
             \item{CSV, Excel, HDF5, VTK}
+            \item{Paraview}
         \end{itemize}
         \item{Get some more \href{https://github.com/CORE-GATECH-GROUP/serpent-tools/wiki/Publications-using-serpentTools}{publications}}
         \item{Improved performance and support}
