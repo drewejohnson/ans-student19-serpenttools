@@ -5,11 +5,11 @@ def setupCollector(col):
     if not col.xsTables:
         col.collect()
     col.states = (
-        (1050., 1200., 600., 750., 900.),
-        (650., 675., 700., 725., 750.),
-        (500., 700., 800., 600.),
+        (300., 750.),
+        (300., 600.),
+        (1200., 300., 900.,),
     )
-    col.axis = ("Univ", "Fuel T", "Coolant Dens", "Coolant Temp", "Burnup", "Group")
+    col.axis = ("Univ", "Coolant Dens", "Coolant Temp", "Fuel Temp", "Burnup", "Group")
 
 
 def plotDepmtxStructure(mtx):
