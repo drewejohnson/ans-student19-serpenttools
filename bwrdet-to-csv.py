@@ -11,7 +11,7 @@ ygrids = d.grids['Y']
 nx = xgrids.shape[0]
 ny = ygrids.shape[0]
 
-data = empty((nx * ny, 5)) # x, y, z, fast, thermal
+data = empty((nx * ny, 5))
 data[:, 2].fill(0)
 
 for ix, (yi, xi) in enumerate(product(range(ny), range(nx))):
@@ -21,7 +21,7 @@ for ix, (yi, xi) in enumerate(product(range(ny), range(nx))):
     data[ix, 4] = d.tallies[1, yi, xi]
 
 with open('bwr.csv', 'w') as out:
-    out.write("X Axis,Y Axis,Z Axis,Fast,Thermal\n")
+    out.write("X Axis,Y Axis,Z Axis,Thermal,Fast\n")
     for row in data:
         out.write(','.join(map(str, row)) + "\n")
 
