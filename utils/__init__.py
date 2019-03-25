@@ -1,4 +1,5 @@
 from matplotlib.pyplot import pcolormesh
+from jinja2 import Template
 
 def plotDepmtxStructure(mtx):
     orig = mtx.data.copy()
@@ -11,3 +12,8 @@ def plotDepmtxStructure(mtx):
     mtx.data = orig
 
     return out
+
+def render(nRings):
+    with open("./template.jinja") as stream:
+        template = Template(stream.read())
+    return template.render(nRings=nRings)
