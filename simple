@@ -105,8 +105,6 @@ cell 3 0 outside 11  % place global boundary to be outside 11
 */
 set pop 100000 500 200
 % set pop 500 100 50  
-% ene mymg 4 cas14
-% set nfg mymg
 
 /*
 cross section libraries
