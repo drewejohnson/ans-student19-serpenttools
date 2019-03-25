@@ -46,9 +46,9 @@
                 \item Either in a Python/iPython environment or Jupyter notebook
             \end{itemize}
         \onslide<2->
-        \item{Who has used SERPENT/MCNP before?}
+        \item{Who has used SERPENT or Monte Carlo code before?}
         \onslide<3->
-        \item{Python}
+        \item{Python?}
     \end{itemize}
 \end{frame}
 
@@ -99,6 +99,7 @@
         \item MATLAB is expensive (for non-students)\footnote{FOSS alternative: Octave}
         \item Complicated and connected data stored as arrays
         \item For large problems, output files can cripple MATLAB
+        \onslide<2->
         \begin{itemize}
             \item Full core depletion
             \item Many burnup steps
@@ -279,6 +280,7 @@
         \item{\st contains custom readers and containers}
         \item{Each file type has a dedicated reader for processing, storing data}
         \item{Containers represent objects like detectors, homogenized universes, etc.}
+        \onslide<2->
         \item{Easiest way to interact with data: \texttt{serpentTools.read}}
         \item{Store all the data by default}
         \begin{itemize}
@@ -300,6 +302,7 @@
         \item Monte Carlo codes compute expected quantities with associated uncertainty
         \item $k_{eff}=1.0009\pm 10 pcm \rightarrow k_{eff} \pm \sigma$
         \item How can we be sure our answer is ``right''?
+        \onslide<2->
         \item Some convergence analysis
         \item Increase number of simulated particles $\approx 1/\sqrt{N}$
         \begin{itemize}
@@ -359,6 +362,7 @@
                     \dot{\vec{N}}(t)=\underline{\mathbf{A}}\vec{N}(0)
                 \end{equation}
             \end{enumerate}
+        \onslide<2->
         \item Fixed $\phi$ assumption is valid for \textbf{very small $\Delta t$}
         \item Various coupling schemes improve assumption
             \begin{itemize}
