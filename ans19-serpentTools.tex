@@ -490,12 +490,12 @@
     \begin{itemize}
         \item{Monte Carlo is great, but slow}
         \onslide<2->
-        \item{Nodal diffusion is fast, but requires precomputation of homogenized data}
+        \item{Deterministic codes are fast, but require precomputation of homogenized data}
         \begin{itemize}
             \item{Cross sections, kinetic parameters, discontinuity factors, etc}
         \end{itemize}
         \onslide<3->
-        \item{Some nodal diffusion codes accept these data across perturbed states}
+        \item{Some codes accept these data across perturbed states}
         \begin{itemize}
             \item{Range of fuel temperatures, coolant densities/temperatures, rod position, etc.}
             \item{Burnup dependence}
@@ -589,9 +589,9 @@
         \item Still have to work with large files
         \item Create binary file that can be loaded into MATLAB
         \onslide<2->
+        \item \texttt{\$ python -m serpentTools to-matlab dep\_dep.m}
         \item Use \st as a compression tool
         \item Take advantage of \st filtering capabilities
-        \item \texttt{\$ python -m serpentTools to-matlab dep\_dep.m}
     \end{itemize}
 \end{frame}
 
@@ -678,7 +678,7 @@
 \subsection{\texttt{pandas} and \texttt{seaborn}}
 
 \begin{frame}{\texttt{pandas} and \texttt{seaborn}}
-    \begin{columns}
+    \begin{columns}[t]
         \column{0.5\textwidth}
         \begin{itemize}
             \item{Data analysis tool kit}
@@ -688,7 +688,7 @@
                 \item{csv, hdf5, Excel, \LaTeX}
             \end{itemize}
         \end{itemize}
-
+        \onslide<2->
         \column{0.5\textwidth}
         \begin{itemize}
             \item{Powerful plotting library}
