@@ -158,12 +158,56 @@
         \begin{itemize}
             \item surfaces, cells, lattices, universes
         \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{Materials}
+
+\begin{frame}{Materials}
+    \begin{itemize}
         \item Materials are assigned isotopes and properties
         \begin{itemize}
             \item volume, density, temperature, etc.
         \end{itemize}
+        \item{Negative values $\rightarrow$ mass density or mass fraction}
+        \item{Positive values $\rightarrow$ atom density or fraction}
+        \item{\texttt{mat clad -6.5} $\rightarrow$ material named \texttt{clad} at 6.5 g/cc}
     \end{itemize}
 \end{frame}
+
+begin{frame}{Materials - Isotopes}
+    \begin{itemize}
+        \item{Assign isotopes with \textcolor{blue}{\texttt{ZZAAA}} identifiers}
+        \begin{itemize}
+            \item{\texttt{ZZ} - number of protons}
+            \item{\texttt{AAA} - protons and neutrons}
+        \end{itemize}
+        \item{Natural isotopes have \texttt{AAA} = \textcolor{green}{\texttt{000}}}
+        \item{\textit{Named} isotopics - \texttt{U-235} $\leftrightarrow$ \texttt{92235}}
+        \onslide<2->
+        \item{Assign cross section library corresponding to temperature}
+        \begin{itemize}
+            \item{\textcolor{red}{\texttt{06c}} $\rightarrow$ 600 $K$}
+        \end{itemize}
+    \item{\texttt{mat clad -6.5 \textcolor{blue}{8016}.\textcolor{red}{09c} -1.19E-3}
+         \textcolor{green}{24000}.\textcolor{red}{09c} -9.97E-4}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Materials - Options}
+    \begin{itemize}
+        \item{Burnable materials - \texttt{burn}}
+        \item{Set volume of material - \texttt{vol}}
+        \item{\texttt{mat fuel -10.29 burn 1 vol 14}}
+        \onslide<2->
+        \item{$S(\alpha,\beta)$ scattering laws - \texttt{moder}}
+        \item{Link to library with \textcolor{blue}{\texttt{therm}} setting}
+        \item{\texttt{mat water -0.75 moder \textcolor{blue}{lwtr} \textcolor{red}{1001}
+            8016.06c 1 \textcolor{red}{1001}.06c 2}}
+        \item{\texttt{therm \textcolor{blue}{lwtr} lwe712.t}}
+    \end{itemize}
+\end{frame}
+
 
 \subsection{Geometry}
 
