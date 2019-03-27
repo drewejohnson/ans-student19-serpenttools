@@ -22,6 +22,7 @@ from serpentTools import read
 from serpentTools.settings import rc
 
 
+# Tell serpentTools that we only want criticalities
 rc['xs.variableGroups'] = ['eig']
 
 
@@ -33,14 +34,43 @@ def buildSss2Cmd(sss2Exe, opts=None):
         opts = []
     elif isinstance(opts, str):
         opts = opts.split()
-    elif isinstance(opts, dict):
-        opts = []
-        for key, value in opts.items():
-            opts.extend(['-' + key, value.split()])
+    else:
+        raise ValueError("Will not build executable path from {}".format(opts))
     return [sss2Exe] + opts
 
 
 class Runner(object):
+    """
+    Basic input file builder and SERPENT runner
+
+    Parameters
+    ----------
+    tempalteFile: str
+        Path to a template file used to build the geometry.
+        Replaces {fuelr} with fuel pin radius, {cladr} with
+        cladding radius, and {mpitch} with unit cell pitch
+    sss2Exe: str
+        Path to serpent executable
+    sss2Opts: None or str
+        Options used to control serpent run. If None, run SERPENT with
+        no parallelization. Pass a string to be placed between the
+        executable and the file path.
+
+    Examples
+    --------
+    Plain, serial SERPENT runner
+
+    >>> rs = Runner("template", "sss2")
+
+    Use OMP with four threads
+
+    >>> romp = Runner("template", "sss2", "-omp 4")
+    # Executes on file the command ``sss2 -omp 4 <file>``
+
+    Combine MPI and OMP
+
+    >>> mpar = Runner("template", "mpirun -n 4 ./sss2", "-omp 4")
+    """
 
     CLAD_THICK = 0.06
 
@@ -56,6 +86,7 @@ class Runner(object):
 
     @property
     def verbose(self):
+        """Boolean controlling the amount of information printed"""
         return self._verbose
 
     @verbose.setter
@@ -63,7 +94,17 @@ class Runner(object):
         self._verbose = bool(val)
 
     def run(self, fuelr, mpitch=0.63):
-        """Run serpent and return criticality and uncertainty"""
+        """Return multiplication factor for a geometry
+
+        Performs the following actions:
+        1. Creates a temporary directory for input and output files
+        2. Builds input file with fuel radius and moderator pitch
+        3. Runs serpent given this geometry
+        4. After a successful SERPENT run, return absKeff and uncertainty.
+           Otherwise, move the input file into this directory and raise an
+           error with the current geometry
+        5. Destroy the temporary directory
+        """
         cladr = fuelr + self.CLAD_THICK
         assert fuelr < cladr < mpitch, ' '.join(
             map(str, (fuelr, cladr, mpitch)))
@@ -81,6 +122,7 @@ class Runner(object):
         return kinf
 
     def _run(self, fuelr, cladr, mpitch, inputFile):
+        """Build the input file and run SERPENT. Return return code"""
         with open(inputFile, 'w') as stream:
             stream.write(self._template.format(
                 fuelr=fuelr, cladr=cladr, mpitch=mpitch))
@@ -103,6 +145,7 @@ class Runner(object):
         return proc.returncode
 
     def _scrape(self, resfile):
+        """Read multiplication factor from resfile"""
         try:
             reader = read(resfile, 'results')
             kinf = reader.resdata['absKeff'][0:2]
