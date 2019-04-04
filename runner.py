@@ -74,7 +74,7 @@ class Runner(object):
 
     CLAD_THICK = 0.06
 
-    def __init__(self, templateFile, sss2Exe, sss2Opts=None, verbose=True):
+    def __init__(self, templateFile, sss2Exe, sss2Opts=None):
         if not isfile(templateFile):
             raise IOError(
                 "File {} does not exist or is not file".format(templateFile))
@@ -82,16 +82,6 @@ class Runner(object):
             self._template = stream.read()
         self._exeList = buildSss2Cmd(sss2Exe, sss2Opts)
         self._pwd = getcwd()
-        self._verbose = verbose
-
-    @property
-    def verbose(self):
-        """Boolean controlling the amount of information printed"""
-        return self._verbose
-
-    @verbose.setter
-    def verbose(self, val):
-        self._verbose = bool(val)
 
     def run(self, fuelr, mpitch=0.63):
         """Return multiplication factor for a geometry
@@ -126,10 +116,9 @@ class Runner(object):
         with open(inputFile, 'w') as stream:
             stream.write(self._template.format(
                 fuelr=fuelr, cladr=cladr, mpitch=mpitch))
-        if self._verbose:
-            print("Running with fuel radius: {:7.5F}, clad radius: {:7.5F}, "
-                  "pitch: {:7.5F}"
-                  .format(fuelr, cladr, mpitch))
+        print("Running with fuel radius: {:7.5F}, clad radius: {:7.5F}, "
+              "pitch: {:7.5F}"
+              .format(fuelr, cladr, mpitch))
         proc = run(self._exeList + [inputFile], stdout=PIPE, stderr=PIPE)
         if proc.returncode != 0:
             # failure
