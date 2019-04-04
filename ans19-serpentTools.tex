@@ -183,16 +183,22 @@
         \begin{itemize}
             \item{\texttt{ZZ} - number of protons}
             \item{\texttt{AAA} - protons and neutrons}
+            \item{\texttt{1001} $\rightarrow$ Hydrogen-1}
         \end{itemize}
-        \item{Natural isotopes have \texttt{AAA} = \textcolor{green}{\texttt{000}}}
-        \item{\textit{Named} isotopics - \texttt{U-235} $\leftrightarrow$ \texttt{92235}}
         \onslide<2->
+        \item{Natural isotopes have \texttt{AAA} = \textcolor{green}{\texttt{000}}}
+        \begin{itemize}
+            \item{\texttt{8000} $\rightarrow$ natural oxygen}
+        \end{itemize}
+        \item{\textit{Named} isotopics - \texttt{U-235} $\leftrightarrow$ \texttt{92235}}
+        \onslide<3->
         \item{Assign cross section library corresponding to temperature}
         \begin{itemize}
-            \item{\textcolor{red}{\texttt{06c}} $\rightarrow$ 600 $K$}
+            \item{600 $K\rightarrow$ \textcolor{red}{\texttt{06c}} }
         \end{itemize}
-        \item{\texttt{mat clad -6.5 \textcolor{blue}{8016}.\textcolor{red}{09c} -1.19E-3
-            \textcolor{green}{24000}.\textcolor{red}{09c} -9.97E-4}}
+        \onslide<4->
+        \item{\texttt{mat clad -6.5 \textcolor{blue}{8016}.\textcolor{red}{06c} -1.19E-3
+            \textcolor{green}{24000}.\textcolor{red}{06c} -9.97E-4}}
     \end{itemize}
 \end{frame}
 
@@ -312,6 +318,7 @@
                 \item{\texttt{set bc <type>}}
                 \item{\texttt{set bc <bx> <by> <bz>}}
             \end{itemize}
+        \onslide<3->
         \item{Geometry and mesh plotting}
             \begin{itemize}
                 \item{\texttt{plot <orientation> <px> <py>}}
@@ -770,6 +777,7 @@
             \item{Mailing list - \url{https://pwp.gatech.edu/core/contact-us/}}
             \item{Follow the repository on Github}
         \end{itemize}
+        \onslide<2->
         \item{Interested in developing?}
         \begin{itemize}
             \item{Happily welcome contributors}
