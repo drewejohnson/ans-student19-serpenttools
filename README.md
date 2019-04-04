@@ -93,3 +93,9 @@ make SERPENT_EXE="mpirun -n 4" SERPENT_OPTS="-omp 4" serpent
 would use `mpirun` with four nodes, and a total of four OMP threads. 
 The generation of the coefficient file, `coe.coe`, may take a while,
 as 50 perturbation states are calculated.
+
+The `Makefile` can also be used to generate the slides for the workshop. The command
+```
+make slides
+```
+will use `pdflatex` to build a pdf of the presentation. 

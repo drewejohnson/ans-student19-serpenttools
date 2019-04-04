@@ -8,7 +8,7 @@ ARCHIVE=dep_res.m depmtx_fuelpfpr10.m ${SERPENT_RESULTS}
 
 # LaTeX
 # Maybe need to change this to pdflatex
-LATEX_BUILDER=rubber -d
+LATEX_BUILDER=pdflatex
 
 slides: ans19-serpentTools.pdf
 
