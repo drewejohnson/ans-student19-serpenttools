@@ -46,9 +46,7 @@
             \begin{itemize}
                 \item Either in a Python/iPython environment or Jupyter notebook
             \end{itemize}
-        \onslide<2->
         \item{Who has used SERPENT or Monte Carlo code before?}
-        \onslide<3->
         \item{Python?}
     \end{itemize}
 \end{frame}
@@ -100,7 +98,6 @@
         \item MATLAB is expensive (for non-students)\footnote{FOSS alternative: Octave}
         \item Complicated and connected data stored as arrays
         \item For large problems, output files can cripple MATLAB
-        \onslide<2->
         \begin{itemize}
             \item Full core depletion
             \item Many burnup steps
@@ -186,18 +183,15 @@
             \item{\texttt{AAA} - protons and neutrons}
             \item{\texttt{1001} $\rightarrow$ Hydrogen-1}
         \end{itemize}
-        \onslide<2->
         \item{Natural isotopes have \texttt{AAA} = \textcolor{green}{\texttt{000}}}
         \begin{itemize}
             \item{\texttt{8000} $\rightarrow$ natural oxygen}
         \end{itemize}
         \item{\textit{Named} isotopics - \texttt{U-235} $\leftrightarrow$ \texttt{92235}}
-        \onslide<3->
         \item{Assign cross section library corresponding to temperature}
         \begin{itemize}
             \item{600 $K\rightarrow$ \textcolor{red}{\texttt{06c}} }
         \end{itemize}
-        \onslide<4->
         \item{\texttt{mat clad -6.5 \textcolor{blue}{8016}.\textcolor{red}{06c} -1.19E-3
             \textcolor{green}{24000}.\textcolor{red}{06c} -9.97E-4}}
     \end{itemize}
@@ -208,7 +202,6 @@
         \item{Burnable materials - \texttt{burn}}
         \item{Set volume of material - \texttt{vol}}
         \item{\texttt{mat fuel -10.29 burn 1 vol 14}}
-        \onslide<2->
         \item{$S(\alpha,\beta)$ scattering laws - \texttt{moder}}
         \item{Link to library with \textcolor{blue}{\texttt{therm}} setting}
         \item{\texttt{mat water -0.75 moder \textcolor{blue}{lwtr} \textcolor{red}{1001}
@@ -225,7 +218,6 @@
         \item{Handy shortcut for defining fuel pins}
         \item{Basic syntax: \texttt{pin <name> <m1> <r1> <m2> <r2> ... <mN>}}
         \item{Each material is placed from previous radius to next radius}
-        \onslide<2->
         \item{\texttt{pin fp \textcolor{red}{fuel} 0.39 \textcolor{green}{clad}
                0.45 \textcolor{blue}{water}}}
     \end{itemize}
@@ -246,7 +238,6 @@
         \end{itemize}
         \item{Place pins in Cartesian grid}
         \item{\texttt{lat <univ> 1 x0 y0 nx ny \textcolor{red}{pitch}}}
-        \onslide<2->
         \item{\texttt{lat 100 1 0 0 6 6 \textcolor{red}{1.3} fp fp fp fp ...}}
     \end{itemize}
     \begin{figure}
@@ -268,7 +259,6 @@
         \item{Many options for building geometric surfaces}
         \item{Used to define boundaries to materials, universes, etc.}
         \item{Simple square: \texttt{surf <id> sqc x0 y0 hp [rad]}}
-        \onslide<2->
         \item{\texttt{surf \textcolor{red}{10} sqc 0 0 3.9 0.2}}
         \item{\texttt{surf \textcolor{blue}{11} sqc 0 0 4.5}}
     \end{itemize}
@@ -285,7 +275,6 @@
     \begin{itemize}
         \item{Cells are defined by intersections, unions of surfaces}
         \item{\texttt{cell <id> <univ> [what] [surf boundaries]}}
-        \onslide<2->
         \item{\texttt{cell 1 0 fill 100 -\textcolor{red}{10}}}
         \item{\texttt{cell 2 0 \textcolor{green}{clad} \textcolor{red}{10} -\textcolor{blue}{11}}}
         \item{\texttt{cell 3 0 outside \textcolor{blue}{11}}}
@@ -313,13 +302,11 @@
             \item{\texttt{set pop <PPC> <ACT> <INACT>}}
         \end{itemize}
         \item{Cross sections libraries: \texttt{set acelib}}
-        \onslide<2->
         \item{Boundary conditions: 1=black, 2=ref, 3=periodic}
             \begin{itemize}
                 \item{\texttt{set bc <type>}}
                 \item{\texttt{set bc <bx> <by> <bz>}}
             \end{itemize}
-        \onslide<3->
         \item{Geometry and mesh plotting}
             \begin{itemize}
                 \item{\texttt{plot <orientation> <px> <py>}}
@@ -335,7 +322,6 @@
         \item{\st contains custom readers and containers}
         \item{Each file type has a dedicated reader for processing, storing data}
         \item{Containers represent objects like detectors, homogenized universes, etc.}
-        \onslide<2->
         \item{Easiest way to interact with data: \texttt{serpentTools.read}}
         \item{Store all the data by default}
         \begin{itemize}
@@ -361,7 +347,6 @@
         \item Monte Carlo codes compute expected quantities with associated uncertainty
         \item $k_{eff}=1.0009\pm 10 pcm \rightarrow k_{eff} \pm \sigma$
         \item How can we be sure our answer is ``right''?
-        \onslide<2->
         \item Increase number of simulated particles
         \item Uncertainty goes $\approx 1/\sqrt{N}$
         \begin{itemize}
@@ -391,7 +376,6 @@
         \begin{equation}
             r(\omega) = \Sigma_i(E)
         \end{equation}
-        \onslide<2->
         \item Many binning options
         \begin{itemize}
             \item energy, reaction, material, xyz mesh, hex mesh, $\cdots$
@@ -421,7 +405,6 @@
                     \dot{\vec{N}}(t)=\underline{\mathbf{A}}\vec{N}(0)
                 \end{equation}
             \end{enumerate}
-        \onslide<2->
         \item Fixed $\phi$ assumption is valid for \textbf{very small $\Delta t$}
         \item Various coupling schemes improve assumption
             \begin{itemize}
@@ -446,13 +429,11 @@
             \item \texttt{dep daystep 1 1 1 1 1}
             \item \texttt{dep daytot 1 2 3 4 5}
         \end{itemize}
-        \onslide<2->
         \item Units of burnup, $[MWd/kgU]$
         \begin{itemize}
             \item{\texttt{dep bustep 0.5 1.0 1.0}}
             \item{\texttt{dep butot 0.5 1.5 2.5}}
         \end{itemize}
-        \onslide<3->
         \item{Simulate downtime or spent fuel with decay - \texttt{decstep}, \texttt{dectot}}
     \end{itemize}
 \end{frame}
@@ -469,7 +450,6 @@
         \begin{itemize}
             \item $\approx$ 5-20 days
         \end{itemize}
-        \onslide<2->
         \item Use higher order schemes with substeps \texttt{set pcc LELI 5}
         \item Use built in subdivision or manual subdivisions
         \begin{itemize}
@@ -492,17 +472,14 @@
         \begin{itemize}
             \item{\texttt{sss2 -checkvolumes <N> <input>}}
         \end{itemize}
-        \onslide<2->
         \item Composition indexing
         \begin{itemize}
             \item{\texttt{sss2 -comp list}}
         \end{itemize}
-        \onslide<3->
         \item Stochastic particle placement for TRISO/pebble fuel
         \begin{itemize}
             \item{\texttt{sss2 -disperse}}
         \end{itemize}
-        \onslide<4->
         \item Track plotter
         \begin{itemize}
             \item{\texttt{sss2 -tracks <N> <input>}}
@@ -521,7 +498,6 @@
         \end{itemize}
         \item Void reactivity coefficient
         \item Useful for generating sensitivities to concentrations of specific isotopes
-        \onslide<2->
         \item Sensitivity of reaction rate ratios through detectors
         \begin{itemize}
             \item $R\equiv \frac{\int_\omega\phi\sigma_fd\omega}{\int_\omega\phi\sigma_{capt}d\omega}$
@@ -553,7 +529,6 @@
         \begin{itemize}
             \item{Cross sections, kinetic parameters, discontinuity factors, etc}
         \end{itemize}
-        \onslide<2->
         \item{Some codes accept these data across perturbed states}
         \begin{itemize}
             \item{Range of fuel temperatures, coolant densities/temperatures, rod position, etc.}
@@ -620,7 +595,6 @@
     \begin{itemize}
         \item{Tree-like structure may not be ideal}
         \item Gathering total cross section requires traversing a lot of branches
-        \onslide<2->
         \item{Better storage of cross sections with \texttt{BranchCollector}}
         \begin{itemize}
             \item Pre-release \texttt{0.7.0rc0}
@@ -640,7 +614,6 @@
             \item Criticality over time
             \item Atomic density for handful of materials from full core
         \end{itemize}
-        \onslide<2->
         \item Use \texttt{serpentTools.settings.rc} settings to control what is processed
         \item{All settings explained \href{https://serpent-tools.readthedocs.io/en/latest/settingsTop.html}{in \texttt{readthedocs} manual}}
     \end{itemize}
@@ -661,7 +634,6 @@
         \item Many workflows/people prefer MATLAB
         \item Still have to work with large files
         \item Create binary file that can be loaded into MATLAB
-        \onslide<2->
         \item \texttt{\$ python -m serpentTools to-matlab dep\_dep.m}
         \item Use \st as a compression tool
         \item Take advantage of \st filtering capabilities
@@ -673,7 +645,6 @@
         \item Common practice with Monte Carlo is to repeat with unique random seeds
         \item Get a handle on the ``true'' uncertainty of system
         \item Reduce effect of stochastic processes
-        \onslide<2->
         \item \texttt{\$ python -m serpentTools seed file N}
         \item Generate $N$ new input files with unique random seeds
         \item Support for using \texttt{include} directives to avoid writing whole file
@@ -696,10 +667,8 @@
         \item{Exporting to other data types}
         \begin{itemize}
             \item{CSV, Excel, HDF5}
-            \onslide<2->
             \item{VTK, Paraview}
         \end{itemize}
-        \onslide<3->
         \item{Get some more \href{https://github.com/CORE-GATECH-GROUP/serpent-tools/wiki/Publications-using-serpentTools}{publications}}
         \item{Improved performance and support}
     \end{itemize}
@@ -750,7 +719,6 @@
                 \item{csv, hdf5, Excel, \LaTeX}
             \end{itemize}
         \end{itemize}
-        \onslide<2->
         \column{0.5\textwidth}
         \begin{itemize}
             \item{Powerful plotting library}
@@ -778,7 +746,6 @@
             \item{Mailing list - \url{https://pwp.gatech.edu/core/contact-us/}}
             \item{Follow the repository on Github}
         \end{itemize}
-        \onslide<2->
         \item{Interested in developing?}
         \begin{itemize}
             \item{Happily welcome contributors}
